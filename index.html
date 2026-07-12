@@ -3,45 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intimacy Board Game</title>
+    <title>Couple Board Game</title>
     <style>
-        :root { --accent: #ec4899; --glow: rgba(236, 72, 153, 0.5); --bg: #0f050b; }
-        body { margin: 0; padding: 20px; background: #050505; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
-        .container { max-width: 500px; width: 100%; }
+        :root { 
+            --accent: #ec4899; 
+            --bg: #050204; 
+            --glass: rgba(255, 255, 255, 0.05); 
+        }
+        body { 
+            margin: 0; padding: 20px; background: var(--bg); color: white; 
+            font-family: 'Inter', system-ui, sans-serif; display: flex; justify-content: center; min-height: 100vh;
+        }
+        .container { max-width: 450px; width: 100%; }
         
-        /* Glowing Pink Board */
-        .board { background: #1a0510; padding: 20px; border-radius: 30px; border: 2px solid var(--accent); box-shadow: 0 0 20px var(--glow); }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); }
+        
+        .status-bar { 
+            text-align: center; margin-bottom: 20px; font-size: 0.9rem; 
+            font-weight: 600; color: #fff; opacity: 0.7;
+            padding: 12px; background: var(--glass); border-radius: 15px; backdrop-filter: blur(5px);
+        }
+
+        .board { 
+            background: var(--glass); padding: 20px; border-radius: 30px; 
+            border: 1px solid rgba(236, 72, 153, 0.3); backdrop-filter: blur(15px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .cell { aspect-ratio: 1; background: #2d0a1d; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: #ff85c2; position: relative; border: 1px solid var(--accent); }
+        .cell { 
+            aspect-ratio: 1; background: rgba(0,0,0,0.2); border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 11px; font-weight: 500; color: #555; position: relative;
+        }
         
-        .token { font-size: 20px; position: absolute; transition: all 0.4s ease; z-index: 5; filter: drop-shadow(0 0 8px white); }
+        .token { font-size: 20px; position: absolute; transition: all 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67); z-index: 5; filter: drop-shadow(0 0 5px rgba(255,255,255,0.4)); }
         
-        /* UI Elements */
-        .status-bar { text-align: center; margin: 20px 0; font-size: 1.2rem; font-weight: bold; color: var(--accent); text-transform: uppercase; }
-        .dice-display { width: 60px; height: 60px; margin: 10px auto; background: white; color: black; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; border-radius: 15px; border: 3px solid var(--accent); }
-        
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 100; }
-        .card { background: #1f0815; border: 2px solid var(--accent); padding: 30px; border-radius: 30px; text-align: center; width: 85%; }
-        .roll-btn { width: 100%; padding: 20px; background: var(--accent); border: none; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .dice-area { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 25px 0; }
+        .dice-display { 
+            width: 65px; height: 65px; background: white; color: black; 
+            display: flex; align-items: center; justify-content: center; font-size: 24px; 
+            font-weight: 900; border-radius: 18px; border: 4px solid var(--accent);
+        }
+
+        .roll-btn { 
+            width: 100%; padding: 18px; background: var(--accent); border: none; 
+            border-radius: 18px; color: white; font-weight: 700; cursor: pointer; 
+            text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s;
+        }
+        .roll-btn:hover { background: #db2777; }
+
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; z-index: 100; }
+        .card { 
+            background: #15060f; border: 1px solid var(--accent); padding: 35px; 
+            border-radius: 35px; text-align: center; width: 80%; 
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="header"><h1>Couple Board Game</h1></div>
     <div class="status-bar" id="status-display">Vamp's Turn (👅)</div>
-    <div class="board">
-        <div class="grid" id="grid"></div>
-    </div>
     
-    <div class="dice-display" id="dice-val">?</div>
-    <button class="roll-btn" id="roll-btn" onclick="rollDice()">ROLL DICE</button>
+    <div class="board"><div class="grid" id="grid"></div></div>
+    
+    <div class="dice-area">
+        <div class="dice-display" id="dice-val">🎲</div>
+        <button class="roll-btn" id="roll-btn" onclick="rollDice()">Roll Dice</button>
+    </div>
     
     <div class="overlay" id="overlay">
         <div class="card">
-            <h2 id="card-square" style="color:var(--accent)">SQUARE 1</h2>
-            <p id="card-text">...</p>
+            <h2 id="card-square" style="color:var(--accent); margin-top:0;">SQUARE 1</h2>
+            <p id="card-text" style="margin: 20px 0; line-height: 1.6;">...</p>
             <div style="display:flex; gap:10px;">
-                <button class="roll-btn" onclick="tryAgain()">Try Again</button>
+                <button class="roll-btn" style="background: transparent; border: 1px solid var(--accent);" onclick="tryAgain()">Retry</button>
                 <button class="roll-btn" onclick="acceptTask()">Accept</button>
             </div>
         </div>
@@ -49,7 +86,7 @@
 </div>
 
 <script>
-    const taskDatabase = { /* 1-200 tasks */ };
+    const taskDatabase = { /* Add your 200 tasks here */ };
     let state = { p1: 1, p2: 1, active: 1, currentRoll: 0 };
 
     function updateStatus() {
@@ -91,7 +128,7 @@
         if (state.active === 1) state.p1 = Math.min(200, state.p1 + 1);
         else state.p2 = Math.min(200, state.p2 + 1);
         drawBoard();
-        setTimeout(() => animateSteps(steps - 1), 400);
+        setTimeout(() => animateSteps(steps - 1), 300);
     }
 
     function tryAgain() {
@@ -107,9 +144,11 @@
         state.active = state.active === 1 ? 2 : 1;
         updateStatus();
         document.getElementById('roll-btn').disabled = false;
+        document.getElementById('dice-val').innerText = "🎲";
     }
 
     drawBoard();
 </script>
 </body>
 </html>
+
