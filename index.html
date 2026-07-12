@@ -5,50 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Couple Board Game</title>
     <style>
-        body { margin: 0; padding: 12px; background: radial-gradient(circle at center, #2d1224 0%, #0d040a 100%); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+        /* Premium Cinematics & Mobile-First Layout */
+        body {
+            margin: 0;
+            padding: 12px;
+            background: radial-gradient(circle at center, #2d1224 0%, #0d040a 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
         .container { display: flex; flex-direction: column; gap: 16px; max-width: 500px; width: 100%; }
-        .board { background: linear-gradient(135deg, rgba(244, 63, 94, 0.15) 0%, rgba(219, 39, 119, 0.25) 100%); padding: 18px; border-radius: 24px; border: 2px solid rgba(244, 63, 94, 0.3); position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        
+        /* Aesthetic Pink Textured Board Layout */
+        .board { 
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.15) 0%, rgba(219, 39, 119, 0.25) 100%); 
+            background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 2px, transparent 2px, transparent 8px);
+            padding: 18px; border-radius: 24px; border: 2px solid rgba(244, 63, 94, 0.3); position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 30px rgba(244, 63, 94, 0.1);
+        }
+        #phase-title { font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 12px; text-shadow: 0 0 10px rgba(244, 63, 94, 0.5); }
+        
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
         .cell { aspect-ratio: 1; background: rgba(20, 10, 20, 0.4); border: 1px solid rgba(244, 63, 94, 0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: rgba(255, 255, 255, 0.3); position: relative; }
-        .token { font-size: 24px; position: absolute; z-index: 5; }
+        .cell.active-phase { background: rgba(244, 63, 94, 0.1); border-color: var(--phase-color); color: #fff; }
+        
+        .token { font-size: 24px; position: absolute; filter: drop-shadow(0 0 6px rgba(255,255,255,0.6)); z-index: 5; }
         .p1-token { top: -2px; left: -2px; filter: drop-shadow(0 0 8px #facc15); }
         .p2-token { bottom: -2px; right: -2px; filter: drop-shadow(0 0 8px #f43f5e); }
+        
         .sidebar { background: rgba(25, 10, 20, 0.8); border: 1px solid rgba(244, 63, 94, 0.2); padding: 16px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; }
         .roll-btn { padding: 12px 24px; background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); border: none; border-radius: 12px; color: white; font-weight: 800; cursor: pointer; }
+        .roll-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
         .overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 5, 12, 0.9); display: none; align-items: center; justify-content: center; border-radius: 24px; z-index: 10; padding: 16px; }
         .overlay.active { display: flex; }
-        .card { background: #250f1c; border: 2px solid #ec4899; padding: 24px; border-radius: 24px; text-align: center; width: 100%; }
+        .card { background: linear-gradient(145deg, #250f1c 0%, #0f050b 100%); border: 2px solid var(--p-color); padding: 24px; border-radius: 24px; text-align: center; width: 100%; }
+        #card-text { font-size: 16px; color: #f1f5f9; margin: 20px 0; padding: 16px; border-radius: 14px; background: rgba(255,255,255,0.03); }
+        .btn-acc { background: var(--p-color); color: white; padding: 14px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; }
+
         .dice { width: 46px; height: 46px; background: #1c0007; border: 2px solid rgba(244, 63, 94, 0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; }
         .rolling { animation: tumble 0.5s infinite linear; }
-        @keyframes tumble { 0% { transform: rotate(0deg) scale(0.9); } 100% { transform: rotate(360deg) scale(0.9); } }
+        @keyframes tumble { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="board" id="board">
+        <div id="phase-title">Phase 1: Warm-Up</div>
         <div class="grid" id="grid"></div>
         <div class="overlay" id="overlay">
-            <div class="card">
-                <div id="card-square" style="font-size: 11px; font-weight:800; color: #ec4899;">SQUARE</div>
-                <div id="card-text" style="margin: 20px 0; min-height: 60px; color: #fff;"></div>
-                <button class="roll-btn" onclick="acceptTask()">✓ Accept</button>
+            <div class="card" id="card">
+                <div id="card-square" style="font-size: 11px; font-weight:800; letter-spacing:2px;">SQUARE</div>
+                <div id="card-text"></div>
+                <button class="btn-acc" onclick="acceptTask()">✓ Accept</button>
             </div>
         </div>
     </div>
 
     <div class="sidebar">
-        <div id="turn-display" style="font-size: 18px; font-weight: 900; color: #facc15;">Vamp (👅)</div>
+        <div class="turn-info">
+            <span id="turn-display" style="color: #facc15; font-weight:900;">Vamp (👅)</span>
+        </div>
         <div class="dice" id="dice">1</div>
         <button class="roll-btn" id="roll-btn" onclick="rollDice()">Roll</button>
     </div>
 </div>
 
 <script>
+    const taskDatabase = { /* Add your 200 tasks here */ };
     let state = { p1: 1, p2: 1, active: 1, currentRoll: 1 };
-    
-    // Remember to fill this with your 200 tasks
-    const taskDatabase = { 1: "Start with a soft kiss.", 200: "THE FINALE!" };
 
     function drawBoard() {
         const grid = document.getElementById('grid');
@@ -56,9 +86,10 @@
         let currentPos = state.active === 1 ? state.p1 : state.p2;
         let base = Math.max(1, Math.min(171, Math.floor((Math.max(1, currentPos - 12) - 1) / 5) * 5 + 1));
         
-        for(let i = 0; i < 30; i++) {
+        for(let i=0; i<30; i++) {
             let cellNum = base + i;
             if(cellNum > 200) break;
+            
             let cell = document.createElement('div');
             cell.className = 'cell';
             cell.innerText = cellNum;
@@ -82,7 +113,7 @@
     function animateSteps(steps) {
         if (steps <= 0) { showCard(); return; }
         setTimeout(() => {
-            if (state.active === 1) state.p1 = Math.min(200, state.p1 + 1); 
+            if (state.active === 1) state.p1 = Math.min(200, state.p1 + 1);
             else state.p2 = Math.min(200, state.p2 + 1);
             drawBoard();
             animateSteps(steps - 1);
@@ -92,7 +123,8 @@
     function showCard() {
         let sq = state.active === 1 ? state.p1 : state.p2;
         document.getElementById('card-square').innerText = `SQUARE ${sq}`;
-        document.getElementById('card-text').innerText = taskDatabase[sq] || "Enjoy this intimate moment!";
+        document.getElementById('card-text').innerText = taskDatabase[sq] || "Enjoy your moment!";
+        document.getElementById('card').style.setProperty('--p-color', state.active === 1 ? '#facc15' : '#f43f5e');
         document.getElementById('overlay').classList.add('active');
     }
 
@@ -100,6 +132,7 @@
         document.getElementById('overlay').classList.remove('active');
         state.active = state.active === 1 ? 2 : 1;
         document.getElementById('turn-display').innerText = state.active === 1 ? "Vamp (👅)" : "Rabbit (🐇)";
+        document.getElementById('turn-display').style.color = state.active === 1 ? "#facc15" : "#f43f5e";
         document.getElementById('roll-btn').disabled = false;
         drawBoard();
     }
