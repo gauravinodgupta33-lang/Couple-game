@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +48,7 @@
             transition: color 0.4s ease;
         }
         
-        /* Zoomed-In Square Design Grid */
+        /* Zoomed-In Square Design Grid (30 Squares View) */
         .grid { 
             display: grid; 
             grid-template-columns: repeat(5, 1fr); 
@@ -65,7 +66,7 @@
             font-weight: 800;
             color: rgba(255, 255, 255, 0.3);
             position: relative; 
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
         .cell.active-phase {
@@ -79,7 +80,7 @@
         .token { 
             font-size: 24px;
             position: absolute; 
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
             z-index: 5;
         }
@@ -196,12 +197,10 @@
 <body>
 
 <div class="container">
-    <!-- BOARD CONTAINER -->
     <div class="board" id="board" style="--phase-color: #fca5a5;">
         <div id="phase-title">Phase 1: Sweet Warm-Up</div>
         <div class="grid" id="grid"></div>
         
-        <!-- MODAL CARD OVERLAY -->
         <div class="overlay" id="overlay">
             <div class="card" id="card" style="--p-color: #facc15;">
                 <div id="card-square" style="font-size: 11px; font-weight:800; letter-spacing:2px; color: var(--p-color);">SQUARE</div>
@@ -214,11 +213,10 @@
         </div>
     </div>
 
-    <!-- UTILITY CONTROL HUB -->
     <div class="sidebar">
         <div class="turn-info">
             <span style="font-size: 10px; letter-spacing:1px; color:#a21caf; font-weight:700;">ACTIVE TURN</span>
-            <span id="turn-display" style="color: #facc15;">vamp (👅)</span>
+            <span id="turn-display" style="color: #facc15;">Vamp (👅)</span>
         </div>
         <div class="dice" id="dice">1</div>
         <button class="roll-btn" id="roll-btn" onclick="rollDice()">Roll</button>
@@ -281,7 +279,7 @@
         49: "Pull your partner into a sudden, passionate hug, lifting them slightly off their feet if possible.",
         50: "Sit completely flush against each other, shoulder-to-shoulder and hip-to-hip, for the next two rolls.",
         51: "Slowly undo the top two buttons of your partner's shirt, kissing the exposed skin of their collarbone.",
-        52: "Gently tug your partner's shirt or top off one shoulder, pressing three warm kisses across the bare skin.",
+        52: "Gently toggle your partner's shirt or top off one shoulder, pressing three warm kisses across the bare skin.",
         53: "Seductively remove your own socks or shoes while keeping unbroken, playful eye contact with your partner.",
         54: "Have your partner slowly slide your jacket, sweater, or outer layer off your arms and toss it aside.",
         55: "Trace your fingertips along the waistband of your partner's pants, creating an intense, teasing delay.",
@@ -531,13 +529,14 @@
         299: "Use a warm towel to gently and lovingly clean each other up, sharing a sweet laugh about the wildest moments of the game.",
         300: "CONGRATULATIONS! You have completed the entire 300-square journey. Wrap yourselves tightly in the blankets, cuddle up chest-to-chest, and fall asleep knowing your connection is stronger than ever."
     };
-  const phaseConfig = {
+
+    const phaseConfig = {
         1: { name: "Phase 1: Sweet Warm-Up", color: "#fca5a5" },
         2: { name: "Phase 2: Escalating Affection", color: "#ec4899" },
-        3: { name: "Phase 3: Seductive Stripping", color: "#f43f5e" },
-        4: { name: "Phase 4: Deep Intimacy & Nudity", color: "#d946ef" },
-        5: { name: "Phase 5: Intimate Oral & Manual Play", color: "#ff4e7e" },
-        6: { name: "Phase 6: Full Penetrative Climax", color: "#e11d48" }
+        3: { name: "Phase 3: naughty ?? ", color: "#f43f5e" },
+        4: { name: "Phase 4: more naughty?? ", color: "#d946ef" },
+        5: { name: "Phase 5: too much naughty??", color: "#ff4e7e" },
+        6: { name: "Phase 6: soo much naughty??", color: "#e11d48" }
     };
 
     let state = { p1: 1, p2: 1, active: 1, currentRoll: 1 };
@@ -552,10 +551,10 @@
         grid.innerHTML = '';
         let currentPos = state.active === 1 ? state.p1 : state.p2;
         
-        // Loophole fixed: Automatically centers a clean 50-square view around the active player
-        let base = Math.max(1, currentPos - 22); 
+        // 30-Square View Boundaries
+        let base = Math.max(1, currentPos - 12); 
         base = Math.floor((base - 1) / 5) * 5 + 1;
-        if (base + 49 > 300) base = 251; 
+        if (base + 29 > 300) base = 271; 
         
         let phase = getPhase(currentPos);
         
@@ -563,8 +562,8 @@
         document.getElementById('phase-title').innerText = phaseConfig[phase].name;
         document.getElementById('phase-title').style.color = phaseConfig[phase].color;
 
-        // Render exactly 50 squares inside the active mobile viewport
-        for(let i=0; i<50; i++) {
+        // Render exactly 30 squares
+        for(let i=0; i<30; i++) {
             let cellNum = base + i;
             if(cellNum > 300) break;
             
@@ -574,8 +573,8 @@
             cell.style.setProperty('--phase-color', phaseConfig[cellPhase].color);
             cell.innerText = cellNum;
             
-            if(state.p1 === cellNum) cell.innerHTML += '<div class="token p1-token">🍌</div>';
-            if(state.p2 === cellNum) cell.innerHTML += '<div class="token p2-token">🍑</div>';
+            if(state.p1 === cellNum) cell.innerHTML += '<div class="token p1-token">👅</div>';
+            if(state.p2 === cellNum) cell.innerHTML += '<div class="token p2-token">🐇</div>';
             grid.appendChild(cell);
         }
     }
@@ -591,12 +590,29 @@
             dice.innerText = state.currentRoll;
             dice.classList.remove('rolling');
             
-            if(state.active === 1) state.p1 = Math.min(300, state.p1 + state.currentRoll);
-            else state.p2 = Math.min(300, state.p2 + state.currentRoll);
-            
-            drawBoard();
-            showCard();
+            // Start stepping movement manually
+            animateSteps(state.currentRoll);
         }, 600);
+    }
+
+    // Kinetic step-by-step movement loop
+    function animateSteps(remainingSteps) {
+        if (remainingSteps <= 0) {
+            // Only launch card once the token has officially landed
+            showCard();
+            return;
+        }
+
+        setTimeout(() => {
+            if (state.active === 1) {
+                if (state.p1 < 300) state.p1++;
+            } else {
+                if (state.p2 < 300) state.p2++;
+            }
+            
+            drawBoard(); // Redraw immediately to show the temporary step
+            animateSteps(remainingSteps - 1);
+        }, 300); // 300ms pause on each square for smooth tracing
     }
 
     function showCard() {
@@ -613,8 +629,13 @@
 
     function tryAgain() {
         document.getElementById('overlay').classList.remove('active');
+        
+        // Instantly move token back to original square
         if(state.active === 1) state.p1 = Math.max(1, state.p1 - state.currentRoll);
         else state.p2 = Math.max(1, state.p2 - state.currentRoll);
+        
+        drawBoard();
+        
         document.getElementById('roll-btn').disabled = false;
         rollDice();
     }
@@ -625,10 +646,10 @@
         
         const turnDisp = document.getElementById('turn-display');
         if(state.active === 1) {
-            turnDisp.innerText = "vamp (👅)";
+            turnDisp.innerText = "Vamp (👅)";
             turnDisp.style.color = "#facc15";
         } else {
-            turnDisp.innerText = "rabbit (🐇)";
+            turnDisp.innerText = "Rabbit (🐇)";
             turnDisp.style.color = "#f43f5e";
         }
         
