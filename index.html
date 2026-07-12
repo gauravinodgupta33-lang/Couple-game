@@ -42,18 +42,17 @@
             position: relative;
         }
         
-        /* BOLD & CLEAR TOKENS */
+        /* CORRECTED: Sharp, clear tokens with targeted red glow */
         .token { 
-            font-size: 32px; /* Increased Size */
+            font-size: 32px; 
             position: absolute; 
             z-index: 20;
-            filter: drop-shadow(0 0 2px white) drop-shadow(0 0 5px var(--rose)) drop-shadow(0 0 10px var(--rose));
+            filter: drop-shadow(0 0 8px var(--rose)); 
             pointer-events: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 900; /* Force Bolder Appearance */
-            text-shadow: 0 0 10px rgba(255,255,255,0.8);
+            text-shadow: 0 0 5px rgba(0,0,0,0.5); 
             animation: bounce 1s infinite alternate;
         }
 
