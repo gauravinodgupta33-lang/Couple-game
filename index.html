@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Couple Board Game</title>
+    <title>gaurav ne banaya game </title>
     <style>
         :root { 
             --rose: #e11d48; 
@@ -42,19 +42,26 @@
             position: relative;
         }
         
-        /* BOLD, SHARP, AND CLEAR TOKENS */
+        /* BOLD EMOJI ON TOP LAYER WITH GLOW BEHIND */
         .token { 
-            font-size: 30px; 
+            font-size: 28px; 
             position: absolute; 
-            z-index: 20;
-            pointer-events: none;
-            /* High contrast shadows for definition */
-            text-shadow: 0 0 2px black, 0 0 5px rgba(0,0,0,0.8);
-            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
-            animation: none; /* Removed bounce to prevent blurriness */
+            z-index: 50; /* Top-most layer */
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        /* The Glow layer behind the emoji */
+        .token::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--rose);
+            filter: blur(15px);
+            z-index: -1; /* Behind the emoji */
+            opacity: 0.8;
         }
         
         .dice-area { display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 30px 0; }
@@ -107,7 +114,7 @@
 </div>
 
 <script>
-    const taskDatabase = { /* 1-200 tasks */ };
+    const taskDatabase = { " abhishek ki bandi chorke gyi "};
     let state = { p1: 1, p2: 1, active: 1, currentRoll: 0 };
 
     function updateStatus() {
