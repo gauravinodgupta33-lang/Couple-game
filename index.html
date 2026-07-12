@@ -83,12 +83,12 @@
 
 <div class="container">
     <div class="header"><h1>Couple Game</h1></div>
-    <div class="status-bar" id="status-display">VAMP'S TURN (👅)</div>
+    <div class="status-bar" id="status-display">VAMP'S TURN (🧛‍♂️)</div>
     
     <div class="board"><div class="grid" id="grid"></div></div>
     
     <div class="dice-area">
-        <div class="dice-display" id="dice-val">🎲</div>
+        <div class="dice-display" id="dice-val">🫦</div>
         <button class="roll-btn" id="roll-btn" onclick="rollDice()">Roll Dice</button>
     </div>
     
@@ -109,7 +109,7 @@
     let state = { p1: 1, p2: 1, active: 1, currentRoll: 0 };
 
     function updateStatus() {
-        document.getElementById('status-display').innerText = state.active === 1 ? "VAMP'S TURN (👅)" : "RABBIT'S TURN (🐇)";
+        document.getElementById('status-display').innerText = state.active === 1 ? "VAMP'S TURN (🧛‍♂️)" : "RABBIT'S TURN (🐇)";
     }
 
     function drawBoard() {
@@ -126,7 +126,7 @@
             cell.innerText = num;
             
             // Tokens rendered inside cells
-            if(state.p1 === num) cell.innerHTML += '<div class="token" style="color:white;">👅</div>';
+            if(state.p1 === num) cell.innerHTML += '<div class="token" style="color:white;">🧛‍♂️</div>';
             if(state.p2 === num) cell.innerHTML += '<div class="token" style="color:white;">🐇</div>';
             grid.appendChild(cell);
         }
