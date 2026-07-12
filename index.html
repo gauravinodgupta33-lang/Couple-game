@@ -1,88 +1,90 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Couple Board Game</title>
+    <title>Intimacy Board Game</title>
     <style>
-        body { margin: 0; padding: 12px; background: radial-gradient(circle at center, #2d1224 0%, #0d040a 100%); font-family: -apple-system, sans-serif; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { display: flex; flex-direction: column; gap: 16px; max-width: 500px; width: 100%; }
-        .board { background: rgba(244, 63, 94, 0.15); padding: 18px; border-radius: 24px; border: 2px solid rgba(244, 63, 94, 0.3); position: relative; }
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-        .cell { aspect-ratio: 1; background: rgba(20, 10, 20, 0.4); border: 1px solid rgba(244, 63, 94, 0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: #fff; position: relative; }
-        .token { font-size: 24px; position: absolute; z-index: 5; }
-        .sidebar { background: rgba(25, 10, 20, 0.8); border: 1px solid rgba(244, 63, 94, 0.2); padding: 16px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .roll-btn { padding: 12px 24px; background: #ec4899; border: none; border-radius: 12px; color: white; font-weight: 800; cursor: pointer; }
-        .overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; border-radius: 24px; z-index: 10; padding: 20px; }
-        .overlay.active { display: flex; }
-        .card { background: #1a0510; border: 2px solid #ec4899; padding: 20px; border-radius: 20px; text-align: center; width: 100%; }
-        .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn { padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; }
-        .btn-try { background: #444; color: #fff; }
-        .btn-acc { background: #ec4899; color: #fff; }
+        :root { --accent: #ec4899; --bg: #0f050b; }
+        body { margin: 0; padding: 20px; background: #050505; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
+        .container { max-width: 500px; width: 100%; }
+        
+        .board { background: linear-gradient(180deg, #1a0510 0%, #0f050b 100%); padding: 20px; border-radius: 30px; border: 1px solid #331020; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .cell { aspect-ratio: 1; background: #1a0a14; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: #555; position: relative; border: 1px solid #331020; }
+        
+        .token { font-size: 20px; position: absolute; transition: all 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67); z-index: 5; }
+        
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 100; }
+        .card { background: #1f0815; border: 2px solid var(--accent); padding: 30px; border-radius: 30px; text-align: center; width: 85%; }
+        
+        .roll-btn { width: 100%; padding: 20px; background: var(--accent); border: none; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="board" id="board">
+    <div class="board">
         <div class="grid" id="grid"></div>
-        <div class="overlay" id="overlay">
-            <div class="card">
-                <div id="card-square" style="color: #ec4899; font-weight: 800;">SQUARE</div>
-                <div id="card-text" style="margin: 15px 0; min-height: 50px;"></div>
-                <div class="actions">
-                    <button class="btn btn-try" onclick="tryAgain()">Try Again</button>
-                    <button class="btn btn-acc" onclick="acceptTask()">Accept</button>
-                </div>
+    </div>
+    <button class="roll-btn" id="roll-btn" onclick="rollDice()">ROLL DICE</button>
+    
+    <div class="overlay" id="overlay">
+        <div class="card">
+            <h2 id="card-square" style="color:var(--accent)">SQUARE 1</h2>
+            <p id="card-text">...</p>
+            <div style="display:flex; gap:10px;">
+                <button class="roll-btn" onclick="tryAgain()">Try Again</button>
+                <button class="roll-btn" onclick="acceptTask()">Accept</button>
             </div>
         </div>
-    </div>
-
-    <div class="sidebar">
-        <div id="turn-display" style="font-weight: 900;">Vamp (👅)</div>
-        <button class="roll-btn" id="roll-btn" onclick="rollDice()">Roll</button>
     </div>
 </div>
 
 <script>
-    const taskDatabase = { /* Add your 200 tasks here */ };
-    let state = { p1: 1, p2: 1, active: 1, currentRoll: 1 };
+    const taskDatabase = { /* 1-200 tasks here */ };
+    let state = { p1: 1, p2: 1, active: 1, currentRoll: 0 };
 
     function drawBoard() {
         const grid = document.getElementById('grid');
         grid.innerHTML = '';
         let currentPos = state.active === 1 ? state.p1 : state.p2;
-        let base = Math.max(1, Math.min(171, Math.floor((Math.max(1, currentPos - 12) - 1) / 5) * 5 + 1));
-        
+        let base = Math.floor((Math.max(1, currentPos - 12) - 1) / 5) * 5 + 1;
+        base = Math.min(171, base);
+
         for(let i=0; i<30; i++) {
-            let cellNum = base + i;
-            if(cellNum > 200) break;
+            let num = base + i;
+            if(num > 200) break;
             let cell = document.createElement('div');
             cell.className = 'cell';
-            cell.innerText = cellNum;
-            if(state.p1 === cellNum) cell.innerHTML += '<div class="token">👅</div>';
-            if(state.p2 === cellNum) cell.innerHTML += '<div class="token">🐇</div>';
+            cell.innerText = num;
+            if(state.p1 === num) cell.innerHTML += '<div class="token">👅</div>';
+            if(state.p2 === num) cell.innerHTML += '<div class="token">🐇</div>';
             grid.appendChild(cell);
         }
     }
 
     function rollDice() {
         document.getElementById('roll-btn').disabled = true;
-        // Simple random move
         state.currentRoll = Math.floor(Math.random() * 6) + 1;
-        if (state.active === 1) state.p1 = Math.min(200, state.p1 + state.currentRoll);
-        else state.p2 = Math.min(200, state.p2 + state.currentRoll);
-        
+        animateSteps(state.currentRoll);
+    }
+
+    function animateSteps(steps) {
+        if (steps <= 0) {
+            document.getElementById('card-text').innerText = taskDatabase[state.active === 1 ? state.p1 : state.p2] || "Perform the task!";
+            document.getElementById('card-square').innerText = `SQUARE ${state.active === 1 ? state.p1 : state.p2}`;
+            document.getElementById('overlay').style.display = 'flex';
+            return;
+        }
+        if (state.active === 1) state.p1 = Math.min(200, state.p1 + 1);
+        else state.p2 = Math.min(200, state.p2 + 1);
         drawBoard();
-        document.getElementById('card-square').innerText = "SQUARE " + (state.active === 1 ? state.p1 : state.p2);
-        document.getElementById('card-text').innerText = taskDatabase[state.active === 1 ? state.p1 : state.p2] || "Perform the task!";
-        document.getElementById('overlay').classList.add('active');
+        setTimeout(() => animateSteps(steps - 1), 400);
     }
 
     function tryAgain() {
-        document.getElementById('overlay').classList.remove('active');
+        document.getElementById('overlay').style.display = 'none';
         if(state.active === 1) state.p1 = Math.max(1, state.p1 - state.currentRoll);
         else state.p2 = Math.max(1, state.p2 - state.currentRoll);
         drawBoard();
@@ -90,12 +92,11 @@
     }
 
     function acceptTask() {
-        document.getElementById('overlay').classList.remove('active');
+        document.getElementById('overlay').style.display = 'none';
         state.active = state.active === 1 ? 2 : 1;
-        document.getElementById('turn-display').innerText = state.active === 1 ? "Vamp (👅)" : "Rabbit (🐇)";
         document.getElementById('roll-btn').disabled = false;
-        drawBoard();
     }
+
     drawBoard();
 </script>
 </body>
