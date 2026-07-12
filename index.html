@@ -5,44 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Intimacy Board Game</title>
     <style>
-        :root { --p1-glow: #facc15; --p2-glow: #f43f5e; --bg: #0a0409; }
-        body { margin: 0; background: var(--bg); color: white; font-family: 'Inter', sans-serif; display: flex; justify-content: center; min-height: 100vh; }
-        .container { width: 100%; max-width: 450px; padding: 20px; }
+        :root { --bg: #121212; --cell: #1e1e1e; --p1: #FFD700; --p2: #FF4500; }
+        body { margin: 0; background: var(--bg); color: white; font-family: sans-serif; display: flex; justify-content: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 500px; padding: 20px; }
         
-        .board { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 20px; backdrop-filter: blur(10px); }
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-        .cell { aspect-ratio: 1; background: rgba(0,0,0,0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.2); position: relative; border: 1px solid rgba(255,255,255,0.05); }
+        .board { background: #000; border: 4px solid #333; border-radius: 20px; padding: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+        .cell { aspect-ratio: 1; background: var(--cell); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #555; position: relative; border: 2px solid #000; }
         
-        .token { font-size: 22px; position: absolute; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); z-index: 5; }
-        .p1-token { filter: drop-shadow(0 0 8px var(--p1-glow)); }
-        .p2-token { filter: drop-shadow(0 0 8px var(--p2-glow)); }
-        
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px); display: none; align-items: center; justify-content: center; z-index: 100; }
-        .card { background: linear-gradient(180deg, #250a1b 0%, #0a0409 100%); border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 40px; text-align: center; width: 80%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        
-        .btn-roll { width: 100%; padding: 20px; background: linear-gradient(90deg, #ec4899, #be185d); border: none; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-top: 20px; box-shadow: 0 10px 20px rgba(190, 24, 93, 0.3); }
-        .btn-act { padding: 12px 25px; border-radius: 15px; border: none; font-weight: bold; cursor: pointer; margin: 5px; }
+        .token { font-size: 24px; position: absolute; z-index: 5; transition: all 0.5s ease; filter: drop-shadow(0 0 5px black); }
+        .p1-token { color: var(--p1); }
+        .p2-token { color: var(--p2); }
+
+        .dice-container { display: flex; justify-content: center; margin: 20px 0; }
+        .dice { width: 60px; height: 60px; background: white; color: black; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; border-radius: 10px; cursor: pointer; transition: transform 0.3s; }
+        .rolling { animation: roll 0.5s linear infinite; }
+        @keyframes roll { 0% { transform: rotateX(0deg); } 100% { transform: rotateX(360deg); } }
+
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; }
+        .card { background: #222; padding: 30px; border-radius: 20px; text-align: center; width: 80%; border: 2px solid #444; }
+        button { padding: 15px 30px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; margin: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2 style="text-align:center; opacity:0.7">Intimacy Board</h2>
     <div class="board"><div class="grid" id="grid"></div></div>
-    <button class="btn-roll" id="roll-btn" onclick="rollDice()">ROLL DICE</button>
     
+    <div class="dice-container">
+        <div class="dice" id="dice" onclick="rollDice()">ROLL</div>
+    </div>
+
     <div class="overlay" id="overlay">
         <div class="card">
-            <h3 id="card-square" style="color: #ec4899;">SQUARE 1</h3>
-            <p id="card-text" style="line-height: 1.6; font-size: 1.1em;"></p>
-            <button class="btn-act" onclick="tryAgain()">Try Again</button>
-            <button class="btn-act" style="background:#ec4899; color:white" onclick="acceptTask()">Accept</button>
+            <h3 id="card-square">SQUARE 1</h3>
+            <p id="card-text"></p>
+            <button onclick="tryAgain()">Try Again</button>
+            <button style="background: #e91e63; color: white;" onclick="acceptTask()">Accept</button>
         </div>
     </div>
 </div>
 
 <script>
-    const taskDatabase = { /* 1-200 tasks here */ };
+    const taskDatabase = { /* Add your 200 tasks */ };
     let state = { p1: 1, p2: 1, active: 1, currentRoll: 0 };
 
     function drawBoard() {
@@ -63,6 +68,17 @@
         }
     }
 
+    function rollDice() {
+        const dice = document.getElementById('dice');
+        dice.classList.add('rolling');
+        setTimeout(() => {
+            state.currentRoll = Math.floor(Math.random() * 6) + 1;
+            dice.classList.remove('rolling');
+            dice.innerText = state.currentRoll;
+            animateSteps(state.currentRoll);
+        }, 1000);
+    }
+
     function animateSteps(steps) {
         if (steps <= 0) {
             document.getElementById('card-text').innerText = taskDatabase[state.active === 1 ? state.p1 : state.p2] || "Perform the task!";
@@ -73,25 +89,18 @@
         if (state.active === 1) state.p1 = Math.min(200, state.p1 + 1);
         else state.p2 = Math.min(200, state.p2 + 1);
         drawBoard();
-        setTimeout(() => animateSteps(steps - 1), 300);
-    }
-
-    function rollDice() {
-        document.getElementById('roll-btn').disabled = true;
-        animateSteps(Math.floor(Math.random() * 6) + 1);
+        setTimeout(() => animateSteps(steps - 1), 400);
     }
 
     function tryAgain() {
         document.getElementById('overlay').style.display = 'none';
         state.active === 1 ? state.p1-- : state.p2--;
         drawBoard();
-        document.getElementById('roll-btn').disabled = false;
     }
 
     function acceptTask() {
         document.getElementById('overlay').style.display = 'none';
         state.active = state.active === 1 ? 2 : 1;
-        document.getElementById('roll-btn').disabled = false;
     }
 
     drawBoard();
