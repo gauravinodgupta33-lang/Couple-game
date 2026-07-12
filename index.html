@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,573 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Couple Board Game</title>
     <style>
-        /* Premium Cinematics & Mobile-First Layout */
-        body {
-            margin: 0;
-            padding: 12px;
-            background: radial-gradient(circle at center, #2d1224 0%, #0d040a 100%);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            color: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
-        .container { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 16px; 
-            max-width: 500px; 
-            width: 100%; 
-        }
-        
-        /* Aesthetic Pink Textured Board Layout */
-        .board { 
-            background: linear-gradient(135deg, rgba(244, 63, 94, 0.15) 0%, rgba(219, 39, 119, 0.25) 100%); 
-            background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 2px, transparent 2px, transparent 8px);
-            padding: 18px; 
-            border-radius: 24px; 
-            border: 2px solid rgba(244, 63, 94, 0.3); 
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 30px rgba(244, 63, 94, 0.1);
-        }
-        #phase-title {
-            font-weight: 800; 
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-align: center;
-            margin-bottom: 12px;
-            text-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
-            transition: color 0.4s ease;
-        }
-        
-        /* Zoomed-In Square Design Grid (30 Squares View) */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(5, 1fr); 
-            gap: 12px; 
-        }
-        .cell { 
-            aspect-ratio: 1; 
-            background: rgba(20, 10, 20, 0.4); 
-            border: 1px solid rgba(244, 63, 94, 0.2); 
-            border-radius: 14px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 15px; 
-            font-weight: 800;
-            color: rgba(255, 255, 255, 0.3);
-            position: relative; 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-        }
-        .cell.active-phase {
-            background: rgba(244, 63, 94, 0.1);
-            border-color: var(--phase-color);
-            color: #fff;
-            text-shadow: 0 0 8px var(--phase-color);
-        }
-        
-        /* Custom Fruit Graphic Tokens */
-        .token { 
-            font-size: 24px;
-            position: absolute; 
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            filter: drop-shadow(0 0 6px rgba(255,255,255,0.6));
-            z-index: 5;
-        }
-        .p1-token { 
-            top: -2px; 
-            left: -2px; 
-            filter: drop-shadow(0 0 8px #facc15); 
-        }
-        .p2-token { 
-            bottom: -2px; 
-            right: -2px; 
-            filter: drop-shadow(0 0 8px #f43f5e); 
-        }
-        
-        /* Control Panel Hub */
-        .sidebar { 
-            background: rgba(25, 10, 20, 0.8); 
-            border: 1px solid rgba(244, 63, 94, 0.2); 
-            padding: 16px; 
-            border-radius: 20px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .turn-info { display: flex; flex-direction: column; }
-        #turn-display { 
-            font-size: 18px; 
-            font-weight: 900; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-        }
-        .roll-btn { 
-            padding: 12px 24px; 
-            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); 
-            border: none; 
-            border-radius: 12px; 
-            color: white; 
-            font-weight: 800; 
-            cursor: pointer; 
-            font-size: 15px; 
-            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
-            transition: all 0.2s ease;
-        }
-        .roll-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        
-        /* Animated Glassmorphic Popup Card */
-        .overlay { 
-            position: absolute; 
-            top: 0; left: 0; right: 0; bottom: 0; 
-            background: rgba(15, 5, 12, 0.9); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
-            display: none; 
-            align-items: center; 
-            justify-content: center; 
-            border-radius: 24px; 
-            z-index: 10; 
-            padding: 16px;
-        }
+        body { margin: 0; padding: 12px; background: radial-gradient(circle at center, #2d1224 0%, #0d040a 100%); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; box-sizing: border-box; }
+        .container { display: flex; flex-direction: column; gap: 16px; max-width: 500px; width: 100%; }
+        .board { background: linear-gradient(135deg, rgba(244, 63, 94, 0.15) 0%, rgba(219, 39, 119, 0.25) 100%); padding: 18px; border-radius: 24px; border: 2px solid rgba(244, 63, 94, 0.3); position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+        .cell { aspect-ratio: 1; background: rgba(20, 10, 20, 0.4); border: 1px solid rgba(244, 63, 94, 0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 800; color: rgba(255, 255, 255, 0.3); position: relative; }
+        .token { font-size: 24px; position: absolute; z-index: 5; }
+        .p1-token { top: -2px; left: -2px; filter: drop-shadow(0 0 8px #facc15); }
+        .p2-token { bottom: -2px; right: -2px; filter: drop-shadow(0 0 8px #f43f5e); }
+        .sidebar { background: rgba(25, 10, 20, 0.8); border: 1px solid rgba(244, 63, 94, 0.2); padding: 16px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .roll-btn { padding: 12px 24px; background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); border: none; border-radius: 12px; color: white; font-weight: 800; cursor: pointer; }
+        .overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 5, 12, 0.9); display: none; align-items: center; justify-content: center; border-radius: 24px; z-index: 10; padding: 16px; }
         .overlay.active { display: flex; }
-        .card { 
-            background: linear-gradient(145deg, #250f1c 0%, #0f050b 100%); 
-            border: 2px solid var(--p-color); 
-            padding: 24px; 
-            border-radius: 24px; 
-            text-align: center; 
-            width: 100%;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
-            transform: scale(0.8);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .overlay.active .card { transform: scale(1); }
-        #card-text { 
-            font-size: 16px; 
-            line-height: 1.5;
-            color: #f1f5f9; 
-            margin: 20px 0; 
-            min-height: 60px;
-            background: rgba(255,255,255,0.03);
-            padding: 16px;
-            border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .btn { padding: 14px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; }
-        .btn-try { background: rgba(255,255,255,0.06); color: #cbd5e1; border: 1px solid rgba(255,255,255,0.1); }
-        .btn-acc { background: var(--p-color); color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-
-        /* Kinetic 3D Dice Graphic */
-        .dice { 
-            width: 46px; 
-            height: 46px; 
-            background: linear-gradient(135deg, #4c0519 0%, #1c0007 100%); 
-            border: 2px solid rgba(244, 63, 94, 0.3); 
-            border-radius: 10px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 18px; 
-            font-weight: 900; 
-            transition: transform 0.1s; 
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-        }
+        .card { background: #250f1c; border: 2px solid #ec4899; padding: 24px; border-radius: 24px; text-align: center; width: 100%; }
+        .dice { width: 46px; height: 46px; background: #1c0007; border: 2px solid rgba(244, 63, 94, 0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; }
         .rolling { animation: tumble 0.5s infinite linear; }
-        @keyframes tumble { 
-            0% { transform: rotate(0deg) scale(0.9); } 
-            50% { transform: rotate(180deg) scale(1.1); }
-            100% { transform: rotate(360deg) scale(0.9); } 
-        }
+        @keyframes tumble { 0% { transform: rotate(0deg) scale(0.9); } 100% { transform: rotate(360deg) scale(0.9); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="board" id="board" style="--phase-color: #fca5a5;">
-        <div id="phase-title">Phase 1: Sweet Warm-Up</div>
+    <div class="board" id="board">
         <div class="grid" id="grid"></div>
-        
         <div class="overlay" id="overlay">
-            <div class="card" id="card" style="--p-color: #facc15;">
-                <div id="card-square" style="font-size: 11px; font-weight:800; letter-spacing:2px; color: var(--p-color);">SQUARE</div>
-                <div id="card-text">Task text goes here</div>
-                <div class="actions">
-                    <button class="btn btn-try" onclick="tryAgain()">🔄 Try Again</button>
-                    <button class="btn btn-acc" onclick="acceptTask()">✓ Accept</button>
-                </div>
+            <div class="card">
+                <div id="card-square" style="font-size: 11px; font-weight:800; color: #ec4899;">SQUARE</div>
+                <div id="card-text" style="margin: 20px 0; min-height: 60px; color: #fff;"></div>
+                <button class="roll-btn" onclick="acceptTask()">✓ Accept</button>
             </div>
         </div>
     </div>
 
     <div class="sidebar">
-        <div class="turn-info">
-            <span style="font-size: 10px; letter-spacing:1px; color:#a21caf; font-weight:700;">ACTIVE TURN</span>
-            <span id="turn-display" style="color: #facc15;">Vamp (👅)</span>
-        </div>
+        <div id="turn-display" style="font-size: 18px; font-weight: 900; color: #facc15;">Vamp (👅)</div>
         <div class="dice" id="dice">1</div>
         <button class="roll-btn" id="roll-btn" onclick="rollDice()">Roll</button>
     </div>
 </div>
 
 <script>
-    // ==========================================
-    // DATA MATRIX: COMPLETE 300 TASKS LIST
-    // ==========================================
-    const taskDatabase = {
-        1: "Look into your partner's eyes and tell them the exact moment you realized you had feelings for them.",
-        2: "Share one unique physical feature of your partner that always catches your attention.",
-        3: "Compliment your partner on a specific personality trait that makes you genuinely admire them.",
-        4: "Tell your partner about one little habit of theirs that secretly brings a smile to your face.",
-        5: "Describe your absolute favorite date or memory spent together from your relationship history.",
-        6: "Express one specific thing your partner does that makes you feel incredibly safe and cared for.",
-        7: "Hold your partner's face gently and tell them what you love most about the texture and appearance of their hair.",
-        8: "Look deeply into your partner's eyes for 15 seconds, then name three distinct qualities you appreciate.",
-        9: "Tell your partner one physical compliment you've been thinking about lately but haven't said out loud.",
-        10: "Hold your partner's hands, lock eyes, and share one goal or dream you want to achieve together.",
-        11: "Give your partner a long, slow lip kiss where only your bottom lip presses between theirs.",
-        12: "Give your partner a 'vampire peck'—softly bite their bottom lip before pulling away gently.",
-        13: "Tilt your partner’s head back gently and plant three soft, warm kisses right on the side of their neck.",
-        14: "Breathe warmly against your partner’s neck before pressing a lingering kiss below their ear.",
-        15: "Plant a soft kiss on your partner’s neck, then trail kisses down their shoulder all the way to their fingertips.",
-        16: "Place your hands firmly on your partner's chest over their clothes while locking lips in a long kiss.",
-        17: "Whisper a completely ridiculous, over-the-top pick-up line in your partner's ear using your sexiest voice.",
-        18: "Run your index finger slowly along your partner's jawline, ending with a soft, lingering kiss on their cheek.",
-        19: "Hug your partner tightly from behind, bury your face in their neck, and take a deep, warm breath.",
-        20: "Trace your fingers gently over your partner's lips, then lean in for a deep, slow 10-second kiss.",
-        21: "Have your partner sit comfortably while you give them a firm, relaxing 2-minute shoulder rub.",
-        22: "Gently massage your partner's neck and the base of their skull using slow, circular thumb motions.",
-        23: "Take your partner's hands and gently massage their palms and fingers, pressing on any tight spots.",
-        24: "Have your partner lie face down while you give them a soothing, warm back rub using flat hands.",
-        25: "Gently run your fingers through your partner’s hair, massaging their scalp softly to help them relax.",
-        26: "Trace light circles on your partner's lower back with your fingertips, making them get slight chills.",
-        27: "Have your partner rest their legs on your lap while you give them a comforting, slow foot massage.",
-        28: "Gently squeeze and massage your partner's arms from their shoulders all the way down to their wrists.",
-        29: "Trace your fingers slowly up and down your partner's sides, teasing them lightly without tickling.",
-        30: "Wrap your arms completely around your partner, resting your head against theirs in a warm 1-minute cuddle.",
-        31: "Whisper a sweet, genuine compliment directly into your partner's ear while hugging them tightly.",
-        32: "Look your partner in the eyes and tell them three specific things they do that make you feel loved.",
-        33: "Hold your partner close and tell them your absolute favorite physical attribute about them right now.",
-        34: "Trace your finger along your partner's collarbone while whispering a deep, heartfelt compliment.",
-        35: "Look at your partner and tell them about a time they made you feel incredibly proud of them.",
-        36: "Tell your partner exactly what went through your mind the very first time you ever saw them.",
-        37: "Hold your partner's hands, look at them, and describe the exact vibe or energy that makes them special.",
-        38: "Tell your partner one specific way they have helped you grow or become a better person.",
-        39: "Look into your partner's eyes and tell them one thing about their smile that completely melts you.",
-        40: "Hold your partner flush against you, look at them, and tell them how lucky you feel to have them.",
-        41: "Share a deep, continuous 20-second hug where both of you completely relax your body weight.",
-        42: "Rest your head gently on your partner's chest, listening to their heartbeat for 30 seconds.",
-        43: "Sit closely together, wrap your arms around each other, and rock gently back and forth for a minute.",
-        44: "Interlock your fingers tightly with your partner's hand and hold it firmly on the bed between you.",
-        45: "Lie down together in a tight spooning position, wrapping your arms completely around your partner.",
-        46: "Have your partner sit in your lap, wrapping your arms around their waist while resting your chin on them.",
-        47: "Face each other closely, wrap your arms around your partner's neck, and pull them into a warm embrace.",
-        48: "Lie side-by-side on your backs, holding hands tightly while looking up at the ceiling together.",
-        49: "Pull your partner into a sudden, passionate hug, lifting them slightly off their feet if possible.",
-        50: "Sit completely flush against each other, shoulder-to-shoulder and hip-to-hip, for the next two rolls.",
-        51: "Slowly undo the top two buttons of your partner's shirt, kissing the exposed skin of their collarbone.",
-        52: "Gently toggle your partner's shirt or top off one shoulder, pressing three warm kisses across the bare skin.",
-        53: "Seductively remove your own socks or shoes while keeping unbroken, playful eye contact with your partner.",
-        54: "Have your partner slowly slide your jacket, sweater, or outer layer off your arms and toss it aside.",
-        55: "Trace your fingertips along the waistband of your partner's pants, creating an intense, teasing delay.",
-        56: "Slowly unbutton or unzip your partner's pants or skirt, but do not pull them down just yet.",
-        57: "Have your partner stand up while you slowly slide their socks off their feet one toe at a time.",
-        58: "Seductively unbutton your own shirt halfway, looking directly into your partner's eyes the entire time.",
-        59: "Reach behind your partner to gently unbutton or unzip their top, letting it loosen slightly on their frame.",
-        60: "Stand face-to-face and take turns slowly removing one accessory each (jewelry, watch, belt, etc.).",
-        61: "Pull your partner's shirt completely over their head and toss it across the room with a confident smile.",
-        62: "Seductively remove your own top entirely, striking a slow, teasing pose to let your partner admire you.",
-        63: "Slide your partner's pants, shorts, or skirt down to their ankles, having them step out of them slowly.",
-        64: "Remove your own bottoms smoothly, leaving yourself down to just your undergarments for the game.",
-        65: "Stand completely face-to-face in just your underwear, holding hands and letting your eyes explore.",
-        66: "Have your partner stand still while you trace your bare hands slowly over their newly exposed skin.",
-        67: "Press your bare torso flush against your partner's clothes or skin, taking a deep, heavy breath.",
-        68: "Seductively trace your tongue along your partner's bare chest or stomach in a slow line.",
-        69: "Have your partner sit on the edge of the bed while you slowly undress them down to their underwear.",
-        70: "Lean your partner back onto the bed, crawling over them while both of you are down to your undergarments.",
-        71: "Lean down and press a soft, warm kiss directly onto your partner's bare belly button for 5 seconds.",
-        72: "Trace your fingers slowly along the soft, highly sensitive skin of your partner's inner thighs.",
-        73: "Gently place your hands on your partner's hips, pulling their undergarment-clad waist tightly against yours.",
-        74: "Plant a slow trail of warm, lingering kisses moving all the way down your partner's bare spine.",
-        75: "Sit closely face-to-face in your underwear, resting your foreheads together while breathing softly.",
-        76: "Seductively bite and nibble the soft skin right at the top curve of your partner's bare shoulder.",
-        77: "Run your hands smoothly under the fabric of your partner's undergarments, teasing the skin beneath.",
-        78: "Whisper a hot, detailed description of exactly what you want to do to your partner later tonight.",
-        79: "Have your partner lie flat while you slowly trace your lips from their collarbone down to their waist.",
-        80: "Stand flush together, wrap your arms around your partner's bare waist, and share a deep French kiss.",
-        81: "Trace your tongue in a slow, warm line right behind your partner's earlobe, making them shiver.",
-        82: "Press a deep, heavy kiss to the side of your partner's neck, holding it there for a full 5 seconds.",
-        83: "Seductively open your mouth against your partner's neck, breathing heavily before sucking gently.",
-        84: "Gently slide your hands up the back of your partner's thighs, pulling their hips closer to yours.",
-        85: "Plant a continuous, wet trail of kisses starting from your partner's chin all the way down to their chest.",
-        86: "Gently use your teeth to pull at the collar of your partner's remaining undergarment, kissing underneath.",
-        87: "Have your partner sit on your lap while you breathe warmly against their neck, tracing their ribs.",
-        88: "Look directly into your partner's eyes while slowly sliding your hand across their bare stomach.",
-        89: "Nibble gently on your partner's neck, alternating between soft bites and warm, soothing licks.",
-        90: "Share a fierce, breathless 15-second kiss where you are actively holding your partner's waist firmly.",
-        91: "Have your partner sit comfortably while you give them a sensual, slow 1-minute chest or pectoral massage.",
-        92: "Gently squeeze and knead your partner's thigh muscles, moving closer to their underwear line.",
-        93: "Trace light, teasing circles on your partner's bare buttocks with your fingertips over their underwear.",
-        94: "Have your partner lie on their stomach while you slowly massage their lower back and hips with firm pressure.",
-        95: "Gently trace the contours of your partner's ribs and sides with your thumbs, making them sigh.",
-        96: "Cup your partner's face with both hands, using your thumbs to softly stroke their cheeks and lips.",
-        97: "Gently run your fingers along the crease where your partner's thigh meets their hip bone.",
-        98: "Have your partner lie back while you sensually massage their calves and ankles to build warmth.",
-        99: "Trace your fingertips down your partner's bare arms, intertwining your fingers tightly at the end.",
-        100: "Spend 1 minute exploring your partner's entire bare torso with slow, flat-handed strokes.",
-        101: "Look your partner in the eyes and tell them the exact part of their body that is driving you crazy right now.",
-        102: "Whisper a dirty secret or a highly specific fantasy you've never told anyone else before.",
-        103: "Describe in detail the exact sensation you feel whenever your partner touches your bare skin.",
-        104: "Look at your partner and tell them exactly how beautiful or handsome they look in their underwear.",
-        105: "Whisper a hot compliment about your partner's body structure right directly against their earlobe.",
-        106: "Tell your partner exactly what you want them to do to your body when the game board ends.",
-        107: "Look into your partner's eyes and state your absolute favorite way that they kiss your body.",
-        108: "Tell your partner one word that perfectly describes the sexual tension between you two right now.",
-        109: "Describe the very first physical fantasy you ever had about your partner when you started dating.",
-        110: "Look your partner dead in the eye and tell them how much power they have over your body right now.",
-        111: "Share a deep, passionate 30-second kiss where both of your tongues are actively involved.",
-        112: "Hold your partner's lower jaw gently while giving them three deep, slow, and wet open-mouth kisses.",
-        113: "Seductively lick your partner's upper lip, then immediately suck their bottom lip into your mouth.",
-        114: "Share a slow, rhythmic kiss where your bodies are pressed completely flat against each other.",
-        115: "Bite your partner's bottom lip playfully, holding it for a second before sealing it with a deep kiss.",
-        116: "Tilt your partner's face up, look at their lips, and give them a series of 5 fast, breathless kisses.",
-        117: "Press a deep French kiss into your partner's mouth while actively running your hands down their back.",
-        118: "Seductively trace your tongue along the inside of your partner's lips before locking into a deep kiss.",
-        119: "Share a quiet, intensely passionate kiss with your eyes completely open, watching their reaction.",
-        120: "Execute a fierce, dominant 20-second kiss where you press your partner back onto the pillows.",
-        121: "Have your partner sit the bed while you kneel between their legs, hugging their waist tightly.",
-        122: "Straddle your partner's thighs while they lie down, leaning over them to look directly into their eyes.",
-        123: "Have your partner lie on their stomach while you sit gently on their lower back, massaging them.",
-        124: "Sit completely back-to-back with your partner, interlocking your elbows and feeling their warmth.",
-        125: "Have your partner stand while you wrap your legs tightly around their waist, holding onto their shoulders.",
-        126: "Sit face-to-face on the bed with your legs completely intertwined, holding onto each other's hips.",
-        127: "Lie down side-by-side facing each other, pulling close enough so your noses and chests touch.",
-        128: "Have your partner lie back while you completely hover over them, supporting your weight on your hands.",
-        129: "Sit on the edge of the bed and pull your partner between your knees, wrapping your arms around them.",
-        130: "Adopt a tight spooning position on your sides, moving your hips slightly in a rhythmic sync.",
-        131: "Gently run your tongue in a slow circle around your partner's belly button, making them twitch.",
-        132: "Trace light, feather-like strokes with your fingernails down the center of your partner's bare stomach.",
-        133: "Lean over and press a soft, warm kiss to the inside of your partner's wrist, where their pulse is.",
-        134: "Gently pinch and massage the soft skin right above your partner's hip bones with your thumbs.",
-        135: "Trail your lips slowly along the outer edge of your partner's underwear line, breathing warmly.",
-        136: "Gently trace your finger down your partner's inner arm, ending with a soft kiss in their elbow crease.",
-        137: "Lean down and softly blow cool air onto your partner's neck right after pressing a hot kiss there.",
-        138: "Run your fingers along your partner's collarbone, applying just enough pressure to make them sigh.",
-        139: "Gently kiss the very top edge of your partner's underwear fabric, letting your lips brush the skin.",
-        140: "Trace your fingers down your partner's spine, pausing to press your warm palm against their lower back.",
-        141: "Run your hands smoothly over your partner's bare chest, focusing on the sides and ribs.",
-        142: "Gently squeeze your partner's waist with both hands, pulling them firmly toward your chest.",
-        143: "Trace light, circular motions on your partner's shoulders using the pads of your fingers.",
-        144: "Have your partner close their eyes while you slowly glide your flat hands down their entire torso.",
-        145: "Gently trace the outer contours of your partner's hips, emphasizing the natural curve of their body.",
-        146: "Run your fingers through your partner's hair while tilting their head back to expose their neck.",
-        147: "Squeeze your partner's upper arms firmly, pulling them into a tight, highly physical stance.",
-        148: "Trace a slow line with your finger from your partner's throat down to their waistband.",
-        149: "Place your warm hands flat against your partner's lower stomach, holding still to feel their breathing.",
-        150: "Spend 1 minute mapping out your partner's shoulder blades using slow, firm finger strokes.",
-        151: "Slowly slide your partner’s underwear or bra strap off one shoulder or hip, kissing the newly exposed skin.",
-        152: "Seductively peel off your own top undergarment (bra or undershirt) while looking directly into your partner's eyes.",
-        153: "Hook your thumbs into the sides of your partner's underwear, pulling them close to feel the heat before sliding it down just a few inches.",
-        154: "Use your teeth to gently tug at the edge of your partner's undergarments, kissing the skin right underneath the fabric.",
-        155: "Turn around and let your partner unhook or slide off your top undergarment from behind, kissing your bare shoulders as it falls.",
-        156: "Gently unhook your partner's bra or adjust their top undergarment, tossing it aside and immediately cupping their bare chest with your warm hands.",
-        157: "Seductively slide your own underwear down to your knees, stepping out of it slowly while striking a teasing pose for your partner.",
-        158: "Kneel in front of your partner and slowly lower their underwear down to their thighs, pressing warm kisses to their hips with every inch it moves.",
-        159: "Reach behind your partner to gently trace their lower back before slowly sliding their top undergarment completely off and dropping it to the floor.",
-        160: "Stand completely flush against each other, reach down together, and push both of your bottom undergarments down to your knees at the exact same time.",
-        161: "Step completely out of your remaining undergarments, leaving yourself fully naked, and strike a confident, slow turn for your partner.",
-        162: "Have your partner completely step out of their undergarments so you are both 100% naked, then pull them into a deep, breathless embrace.",
-        163: "Stand face-to-face completely naked and take 20 seconds to slowly trace your eyes over your partner's entire body, telling them what you love most.",
-        164: "Pull your partner tightly against you, feeling full, unfiltered skin-on-skin contact from chest to thighs for a deep 20-second hug.",
-        165: "Run your hands slowly over your partner's bare butt, squeezing gently while pulling their naked pelvis tightly against yours.",
-        166: "Seductively cup your partner's bare breasts or chest, leaning down to press a soft, lingering kiss right between them.",
-        167: "Have your partner lie down while you slowly trace your fingertips all the way from their neck down to their toes to admire them naked.",
-        168: "Squeeze your partner's hips firmly, pulling their naked body back against yours from behind while looking in a mirror if one is nearby.",
-        169: "Gently trace the contours of your partner's private areas with your index finger, looking into their eyes to see their reaction to being fully exposed.",
-        170: "Hold your partner's hands tightly above their head on the bed, pressing your fully naked weight gently over them with a hungry smile.",
-        171: "Lean down and trace your tongue in a slow circle around your partner's nipple before taking it into your mouth gently.",
-        172: "Plant a continuous trail of warm, wet kisses starting from your partner's chin, moving down their chest, and ending at their navel.",
-        173: "Gently bite the soft skin of your partner's inner thigh, leaving a warm sensation right near their intimate zone.",
-        174: "Kiss your partner's hip bones repeatedly, alternating from left to right while holding their waist firmly.",
-        175: "Press a deep, passionate kiss to your partner's lips while actively rubbing your naked chest against theirs.",
-        176: "Lean over your partner and use your lips to softly trace and kiss the lower curve of their stomach.",
-        177: "Give your partner's nipples a playful, gentle suck, alternating between them while caressing their torso.",
-        178: "Trail a line of soft kisses from your partner's armpit all the way down the side of their naked torso to their hip.",
-        179: "Press your lips firmly against the skin right above your partner's private area, holding still and breathing warmly.",
-        180: "Share a fierce, breathless 30-second French kiss where both of you are actively exploring every inch of each other's naked skin.",
-        181: "Sit cross-legged on the bed directly facing each other, completely naked, holding both hands and locking eyes for 20 seconds.",
-        182: "While sitting face-to-face, pull close enough so that your bare knees and chests are touching, and share a soft lip kiss.",
-        183: "Sit face-to-face and use your hands to gently explore and massage each other's faces, shoulders, and necks.",
-        184: "Have one partner sit behind the other, wrapping their naked arms completely around them and holding them close against their chest.",
-        185: "Sit facing each other and slowly trace your fingers over your partner's collarbones and chest while whispering a hot compliment.",
-        186: "Straddle your partner's lap while sitting face-to-face, wrapping your arms around their neck and holding them tight.",
-        187: "Sitting face-to-face, rest your foreheads together and close your eyes, just feeling the warmth of each other's naked bodies.",
-        188: "While sitting face-to-face, use your toes and feet to playfully rub against your partner's legs and shins.",
-        189: "Sit tightly together and share a slow, passionate kiss where you can feel the rhythmic movement of each other's chests.",
-        190: "Maintain the face-to-face sitting position and run your hands down to cup your partner’s thighs, pulling them even closer.",
-        191: "While sitting face-to-face on your partner's lap, gently grind your pelvic area against theirs for 15 seconds.",
-        192: "Lean down and passionately kiss your partner’s neck while your hands firmly grip their bare waist.",
-        193: "Have your partner lie back slowly while you stay positioned between their legs, kissing down their torso.",
-        194: "Gently cup your partner's private area with your bare hand, holding it there to feel their warmth while kissing their lips.",
-        195: "Slide your tongue slowly along your partner's inner thigh, moving closer and closer to their intimate zone.",
-        196: "Use your hands to gently touch and stimulate your partner's chest and nipples simultaneously while sharing a deep kiss.",
-        197: "Press your naked body completely flat against your partner on the bed, whispering how much you want them in their ear.",
-        198: "Grab your partner's hands, interlock your fingers, and pin them to the bed while kissing their jawline passionately.",
-        199: "Run your lips and tongue along your partner's hip line, teasing them right at the edge of their private area.",
-        200: "You have conquered Phase 4! Pull your partner into a breathless, intense embrace, kissing them deeply to prepare your naked bodies.",
-        201: "Have your partner lie back while you use your fingers to gently separate their intimate lips, kissing their inner thighs before touching them.",
-        202: "Pour a few drops of massage oil or lubricant onto your hands, rubbing them together to warm them up before firmly stroking your partner’s shaft or intimate area.",
-        203: "Slide one finger smoothly inside your partner, tracking a slow, rhythmic movement while using your other hand to caress their chest.",
-        204: "Wrap your hand firmly around your partner's shaft and use a slow, steady up-and-down motion, pausing at the top to press a kiss to their lips.",
-        205: "Use two fingers to gently stimulate your partner internally, gradually increasing the pace while watching the expression on their face.",
-        206: "Focus entirely on your partner's clitoris or the tip of their shaft, using the pad of your thumb to rub in small, intense circular motions.",
-        207: "Slip your hand between your partner’s legs from behind, reaching around to stroke them intimately while holding them tight against your chest.",
-        208: "Have your partner close their eyes while you tease them with your fingers, alternating between light, feather-touch strokes and firm, deep pressure.",
-        209: "Coordinate your hands: use one hand to stimulate your partner's private area while using the other hand to tease and squeeze their nipples.",
-        210: "Use your fingers to build your partner up to a high state of arousal, then suddenly stop for 10 seconds, locking eyes to let the tension hang in the air.",
-        211: "Kneel between your partner’s legs, lean down, and trace your tongue smoothly along the outer length of their intimate area without going inside or taking it in your mouth yet.",
-        212: "Gently take the very tip of your partner's shaft or clitoris into your mouth, swirling your tongue around it softly for 15 seconds.",
-        213: "Position yourself over your partner and trail wet, open-mouth kisses down their lower stomach, moving straight into a warm, lingering oral stroke.",
-        214: "Wrap your lips completely over your partner's shaft, sliding down halfway to give them a slow, warm, and highly focused blowjob stroke.",
-        215: "Use your tongue to stroke your partner's intimate area with an upward motion, pressing firmly against their most sensitive spots.",
-        216: "Hold your partner's hips firmly while giving them a slow, wet oral session, sucking gently to hear them sigh.",
-        217: "Bob your head slowly, sliding your mouth up and down the length of your partner's shaft while using your hand to stroke the base.",
-        218: "Spread your partner's legs wide, dive deep with your tongue, and perform continuous, rhythmic cunnilingus for a full 30 seconds.",
-        219: "Alternate your technique: give your partner 5 seconds of warm oral suction, followed immediately by 5 seconds of rapid, light licking.",
-        220: "Look up into your partner's eyes while your mouth is fully engaged down below, maintaining direct eye contact for a few intense seconds.",
-        221: "Lie completely flat on top of your partner, nesting your private parts directly against theirs, and grind your hips forward and back for 20 seconds.",
-        222: "Have your partner sit on the edge of the bed while you kneel on the floor between their legs, pulling them close to lick and suck them comfortably.",
-        223: "Adopt the 'Mating Frogs' position: both of you lie on your sides facing each other, intertwining your legs tightly so your naked private areas rub together with every movement.",
-        224: "Have your partner straddle your lap face-to-face, lifting their hips slightly so they can slide their private area directly up and down against your shaft or pelvis.",
-        225: "Set up a 'Lotus' position: sit completely upright face-to-face while wrapped around each other, grinding your naked midsections together rhythmically.",
-        226: "Have your partner lie on their stomach while you lay over their back, reaching your hands underneath to stimulate them manually while pressing your body into theirs.",
-        227: "Assume the 'Siamese Twin' position: lie head-to-toe next to each other on your sides, allowing your hands and mouths easy, parallel access to each other’s intimate areas.",
-        228: "Pull your partner into a deep Spooning position on your sides, reaching down to finger or stroke them while your chest is pressed flush against their bare back.",
-        229: "Straddle your partner’s chest face-down, lowering your intimate area right over their lips so they can look up and give you oral sex easily.",
-        230: "Place your partner in a 'Bridge' position on their back with their knees bent up, allowing you to kneel over them and grind your pelvis against theirs with deep pressure.",
-        231: "Take your partner's shaft as deep into your throat as comfortably possible, holding it there for a warm, intense moment.",
-        232: "Use a 'Scissors' tongue motion, flicking your tongue rapidly side-to-side across your partner's clitoris or the head of their shaft.",
-        233: "Use your hand to create a tight seal around the middle of your partner's shaft while using your mouth to aggressively suck the top half.",
-        234: "Blow warm air directly onto your partner's highly sensitive, wet intimate areas right after an oral stroke to give them an intense rush of chills.",
-        235: "Place your hand flat against your partner's lower stomach, pushing down slightly to increase their sensitivity while you give them deep cunnilingus or a blowjob.",
-        236: "Slide your tongue inside your partner smoothly, mimicking a penetrative motion using only your tongue while humming softly to create vibrations.",
-        237: "Take your partner’s testicles or outer labia gently into your mouth, swirling your tongue over the sensitive skin with extreme care.",
-        238: "Perform a continuous 45-second oral session on your partner without stopping, using your hands to simultaneously caress their inner thighs.",
-        239: "Coat your partner's private area entirely with your saliva, then use your lips to softly slide up and down over the slick surface.",
-        240: "Bring your partner to the absolute edge of an oral climax, then pull away completely right at the last second, forcing them to wait.",
-        241: "Combine forces: give your partner an oral stroke while simultaneously sliding two fingers inside them or stroking their base rhythmically.",
-        242: "Have your partner lie on their back while you lift one of their legs onto your shoulder, giving you an open angle to stroke and lick them deeply.",
-        243: "Prop your partner’s hips up with a pillow, making their private area tilt upward perfectly for a highly intense, deep-reaching oral session.",
-        244: "Lower your naked body completely over your partner’s face, straddling their mouth so they can look up at you and lick you deeply while you hold onto the headboard for balance.",
-        245: "Sit on your partner's face facing their feet, letting your intimate parts rest flush against their lips and nose while you reach down to stroke their shaft or stimulate them manually.",
-        246: "Seductively hover your private area just an inch above your partner's mouth, making them reach up with their tongue to trace you before you slowly sink your full weight down.",
-        247: "While sitting completely on your partner's face, slowly roll and grind your hips in a circular motion against their lips to maximize the friction and pressure.",
-        248: "Grind your private parts together with maximum speed and friction for 30 seconds, mimicking actual sex without any real penetration.",
-        249: "Have your partner perform oral sex on you while you use your fingers to stimulate them back at the exact same time.",
-        250: "You have completely conquered Phase 5! Pull your partner into a tight, sweaty, and breathless embrace. Whisper to them that the wait is officially over as you prepare for the final 50 squares: Full Penetrative Sex.",
-        251: "Prop a comfortable pillow underneath your partner's hips, slide between their legs, and slowly enter them for the very first time.",
-        252: "Take a deep breath and hold still inside your partner for 10 seconds, feeling the intense warmth and interlocking your fingers with theirs.",
-        253: "Begin a slow, deep missionary rhythm, pulling back almost entirely before sliding back in all the way.",
-        254: "Lean down completely while inside your partner, pressing your chest flush against theirs and kissing their neck passionately as you move.",
-        255: "Change the missionary angle by having your partner wrap both of their legs tightly around your waist as you slide deep inside them.",
-        256: "Speed up the missionary rhythm slightly, focusing on shallow, rapid strokes followed by one deep, lingering plunge.",
-        257: "Place both of your hands flat on the bed right next to your partner’s head, pushing yourself up to watch their face with every stroke.",
-        258: "Reach down while thrusting to gently stroke your partner's clitoris or chest, combining penetration with intense manual stimulation.",
-        259: "Take a 10-second pause while fully embedded inside your partner, sharing a deep, breathless French kiss to reset your stamina.",
-        260: "Execute 10 slow, heavy, and powerful missionary thrusts, grinding your pelvic bone firmly against theirs with each stroke.",
-        261: "Transition into the Spooning Position: both lay on your sides facing the same direction, and smoothly slide inside them from behind.",
-        262: "Enjoy the effortless weight distribution of the spooning pose, moving your hips in a slow, gentle back-and-forth rhythm.",
-        263: "While spooning from behind, wrap one arm around your partner’s torso, pulling them tight against your chest and kissing their bare shoulder blade.",
-        264: "Reach your hand down between your partner's legs while entering them from behind to stimulate their most sensitive outer spots.",
-        265: "Gently bite and nibble the back of your partner's neck while maintaining a steady, smooth spooning rhythm.",
-        266: "Shift into the Coital Alignment Technique (CAT): return to missionary but slide your body slightly upward so your chest rests on their shoulder, creating maximum friction on the clitoris.",
-        267: "Use the CAT position to execute a grinding, rolling hip motion instead of traditional thrusting, letting the constant pressure do the work.",
-        268: "Hold your partner's face gently while in the CAT position, looking directly into their eyes from just inches away as you glide inside them.",
-        269: "Slide your hands down to firmly cup and squeeze your partner’s butt cheeks, pulling them closer to deepen the penetration.",
-        270: "Gradually slow down the pace to a gentle whisper, letting your bodies absorb the pure warmth of being completely joined together.",
-        271: "Have your partner sit straddled on top of your lap while you lie on your back, letting them slowly lower themselves down onto your shaft.",
-        272: "Lie back completely and let your partner take full control of the speed and depth, moving up and down at their own comfortable pace.",
-        273: "Reach your hands up to firmly hold onto your partner's waist or hips, helping them guide the rhythmic bouncing motion.",
-        274: "Seductively cup and caress your partner’s breasts or chest from below as they ride you, leaning up occasionally to kiss them.",
-        275: "Have your partner lean forward completely, resting their chest on yours while still on top, shifting the angle to a deep, internal grind.",
-        276: "Pull your partner’s hands down to interlock with yours on the bed, anchoring them as they speed up their pace on top.",
-        277: "Have your partner transition into Reverse Cowgirl, facing your feet as they slide down onto you, giving you an incredible visual view.",
-        278: "From below, reach out and run your hands slowly along your partner's bare back and thighs as they move rhythmically in reverse.",
-        279: "Have your partner arch their back slightly while on top, creating a tight, intensely pleasurable angle for both of you.",
-        280: "Lift your hips slightly with every downward stroke your partner takes, meeting them halfway to maximize the deep sensation.",
-        281: "Have your partner rest on their hands and knees in a comfortable, relaxed all-fours position, and gently slide inside them from behind.",
-        282: "Keep the rear-entry pace slow and steady, gripping your partner's hips firmly with both hands to stabilize the rhythm.",
-        283: "Transition into the Prone Position: have your partner lie completely flat on their stomach while you slide over their back and enter them from behind.",
-        284: "While in the flat prone position, slide a pillow under your partner's stomach to make the entry point completely effortless and smooth.",
-        285: "Lean your entire upper body flat against your partner’s bare back while inside them, whispering dirty or passionate things into their ear.",
-        286: "Return to the hands-and-knees position and execute a series of 15 rapid, shallow thrusts to elevate the excitement level.",
-        287: "Reach around to gently stroke your partner's chest or thighs from behind while continuing a heavy, deep rear-entry rhythm.",
-        288: "Take a moment to trace your fingers down your partner's spine while pulsing slowly inside them, giving them intense physical chills.",
-        289: "Change the angle slightly by having your partner drop down onto their elbows while keeping their hips raised for deep penetration.",
-        290: "Pull your partner back firmly against your pelvis with every thrust, creating a solid, skin-on-skin slapping sound that amps up the mood.",
-        291: "Switch back into your absolute favorite, most comfortable position of the night to prepare for the final finish.",
-        292: "Increase your speed and power significantly, matching each other’s breathing as you both head straight toward the edge.",
-        293: "Look deeply into each other’s eyes and declare exactly how close you are to finishing, holding nothing back.",
-        294: "Wrap your arms around each other with maximum tightness, letting the friction build to an absolute peak.",
-        295: "Push through a final, intense 20-second burst of rapid, breathless thrusts, letting the pleasure completely take over.",
-        296: "THE CLIMAX! Release all your built-up tension and finish together, holding your partner as close to your body as humanly possible.",
-        297: "Collapse gently onto each other, keeping your bodies connected for a full minute as your heart rates slowly start to drop.",
-        298: "Gently slide out of your partner and pull them into a warm, protective embrace, planting soft kisses all over their sweaty forehead and cheeks.",
-        299: "Use a warm towel to gently and lovingly clean each other up, sharing a sweet laugh about the wildest moments of the game.",
-        300: "CONGRATULATIONS! You have completed the entire 300-square journey. Wrap yourselves tightly in the blankets, cuddle up chest-to-chest, and fall asleep knowing your connection is stronger than ever."
-    };
-
-    const phaseConfig = {
-        1: { name: "Phase 1: Sweet Warm-Up", color: "#fca5a5" },
-        2: { name: "Phase 2: Escalating Affection", color: "#ec4899" },
-        3: { name: "Phase 3: naughty ?? ", color: "#f43f5e" },
-        4: { name: "Phase 4: more naughty?? ", color: "#d946ef" },
-        5: { name: "Phase 5: too much naughty??", color: "#ff4e7e" },
-        6: { name: "Phase 6: soo much naughty??", color: "#e11d48" }
-    };
-
     let state = { p1: 1, p2: 1, active: 1, currentRoll: 1 };
-
-    function getPhase(sq) {
-        if (sq <= 50) return 1; if (sq <= 100) return 2; if (sq <= 150) return 3;
-        if (sq <= 200) return 4; if (sq <= 250) return 5; return 6;
-    }
+    
+    // Remember to fill this with your 200 tasks
+    const taskDatabase = { 1: "Start with a soft kiss.", 200: "THE FINALE!" };
 
     function drawBoard() {
         const grid = document.getElementById('grid');
         grid.innerHTML = '';
         let currentPos = state.active === 1 ? state.p1 : state.p2;
+        let base = Math.max(1, Math.min(171, Math.floor((Math.max(1, currentPos - 12) - 1) / 5) * 5 + 1));
         
-        // 30-Square View Boundaries
-        let base = Math.max(1, currentPos - 12); 
-        base = Math.floor((base - 1) / 5) * 5 + 1;
-        if (base + 29 > 300) base = 271; 
-        
-        let phase = getPhase(currentPos);
-        
-        document.getElementById('board').style.setProperty('--phase-color', phaseConfig[phase].color);
-        document.getElementById('phase-title').innerText = phaseConfig[phase].name;
-        document.getElementById('phase-title').style.color = phaseConfig[phase].color;
-
-        // Render exactly 30 squares
-        for(let i=0; i<30; i++) {
+        for(let i = 0; i < 30; i++) {
             let cellNum = base + i;
-            if(cellNum > 300) break;
-            
+            if(cellNum > 200) break;
             let cell = document.createElement('div');
-            let cellPhase = getPhase(cellNum);
-            cell.className = 'cell' + (cellPhase === phase ? ' active-phase' : '');
-            cell.style.setProperty('--phase-color', phaseConfig[cellPhase].color);
+            cell.className = 'cell';
             cell.innerText = cellNum;
-            
             if(state.p1 === cellNum) cell.innerHTML += '<div class="token p1-token">👅</div>';
             if(state.p2 === cellNum) cell.innerHTML += '<div class="token p2-token">🐇</div>';
             grid.appendChild(cell);
@@ -580,79 +69,37 @@
     }
 
     function rollDice() {
-        const dice = document.getElementById('dice');
-        const btn = document.getElementById('roll-btn');
-        btn.disabled = true;
-        dice.classList.add('rolling');
-        
+        document.getElementById('roll-btn').disabled = true;
+        document.getElementById('dice').classList.add('rolling');
         setTimeout(() => {
             state.currentRoll = Math.floor(Math.random() * 6) + 1;
-            dice.innerText = state.currentRoll;
-            dice.classList.remove('rolling');
-            
-            // Start stepping movement manually
+            document.getElementById('dice').innerText = state.currentRoll;
+            document.getElementById('dice').classList.remove('rolling');
             animateSteps(state.currentRoll);
         }, 600);
     }
 
-    // Kinetic step-by-step movement loop
-    function animateSteps(remainingSteps) {
-        if (remainingSteps <= 0) {
-            // Only launch card once the token has officially landed
-            showCard();
-            return;
-        }
-
+    function animateSteps(steps) {
+        if (steps <= 0) { showCard(); return; }
         setTimeout(() => {
-            if (state.active === 1) {
-                if (state.p1 < 300) state.p1++;
-            } else {
-                if (state.p2 < 300) state.p2++;
-            }
-            
-            drawBoard(); // Redraw immediately to show the temporary step
-            animateSteps(remainingSteps - 1);
-        }, 300); // 300ms pause on each square for smooth tracing
+            if (state.active === 1) state.p1 = Math.min(200, state.p1 + 1); 
+            else state.p2 = Math.min(200, state.p2 + 1);
+            drawBoard();
+            animateSteps(steps - 1);
+        }, 300);
     }
 
     function showCard() {
         let sq = state.active === 1 ? state.p1 : state.p2;
-        let phase = getPhase(sq);
-        let activeColor = state.active === 1 ? '#facc15' : '#f43f5e';
-        
-        document.getElementById('card').style.setProperty('--p-color', activeColor);
-        document.getElementById('card-square').style.color = activeColor;
         document.getElementById('card-square').innerText = `SQUARE ${sq}`;
-        document.getElementById('card-text').innerText = taskDatabase[sq] || "Enjoy an intimate moment together.";
+        document.getElementById('card-text').innerText = taskDatabase[sq] || "Enjoy this intimate moment!";
         document.getElementById('overlay').classList.add('active');
-    }
-
-    function tryAgain() {
-        document.getElementById('overlay').classList.remove('active');
-        
-        // Instantly move token back to original square
-        if(state.active === 1) state.p1 = Math.max(1, state.p1 - state.currentRoll);
-        else state.p2 = Math.max(1, state.p2 - state.currentRoll);
-        
-        drawBoard();
-        
-        document.getElementById('roll-btn').disabled = false;
-        rollDice();
     }
 
     function acceptTask() {
         document.getElementById('overlay').classList.remove('active');
         state.active = state.active === 1 ? 2 : 1;
-        
-        const turnDisp = document.getElementById('turn-display');
-        if(state.active === 1) {
-            turnDisp.innerText = "Vamp (👅)";
-            turnDisp.style.color = "#facc15";
-        } else {
-            turnDisp.innerText = "Rabbit (🐇)";
-            turnDisp.style.color = "#f43f5e";
-        }
-        
+        document.getElementById('turn-display').innerText = state.active === 1 ? "Vamp (👅)" : "Rabbit (🐇)";
         document.getElementById('roll-btn').disabled = false;
         drawBoard();
     }
