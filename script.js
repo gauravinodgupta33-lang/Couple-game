@@ -11,8 +11,8 @@ const ROW_LEN = 10;        // squares per row (matches 10-col CSS grid)
    ---------------------------------------------------------- */
 const state = {
   players: {
-    vamp:   { name: 'VAMP',   icon: '🧛', position: 1, skips: 0, accepted: 0 },
-    rabbit: { name: 'RABBIT', icon: '🐰', position: 1, skips: 0, accepted: 0 }
+    vamp:   { name: 'VAMP',   img: 'assets/vamp.png',   position: 1, skips: 0, accepted: 0 },
+    rabbit: { name: 'RABBIT', img: 'assets/rabbit.png', position: 1, skips: 0, accepted: 0 }
   },
   turnOrder: ['vamp', 'rabbit'],
   currentTurnIndex: 0,
@@ -32,7 +32,6 @@ const diceLabel       = document.getElementById('dice-label');
 const turnText        = document.getElementById('turn-text');
 const turnPill        = document.getElementById('turn-pill');
 const skipBadge       = document.getElementById('skip-badge');
-const btnUndo         = document.getElementById('btn-undo');
 const btnRules        = document.getElementById('btn-rules');
 const btnCloseRules   = document.getElementById('btn-close-rules');
 const rulesModal      = document.getElementById('rules-modal');
@@ -58,7 +57,7 @@ const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
    Must return a string. squareNumber is passed for context.
    ---------------------------------------------------------- */
 function getTaskForSquare(squareNumber) {
-  return `Task for square ${squareNumber} goes here.`;
+  return "abhishek ki bandi bhag gyi";
 }
 
 /* ----------------------------------------------------------
@@ -145,7 +144,10 @@ function renderBoard(animateSwap = false) {
         occupants.forEach(id => {
           const t = document.createElement('div');
           t.className = 'token' + (id === 'rabbit' ? ' token-rabbit' : '');
-          t.textContent = state.players[id].icon;
+          const img = document.createElement('img');
+          img.src = state.players[id].img;
+          img.alt = state.players[id].name;
+          t.appendChild(img);
           tokenWrap.appendChild(t);
         });
         sq.appendChild(tokenWrap);
@@ -183,6 +185,7 @@ function renderPlayerBar() {
 // Shows a small tappable chip when a player's token is on a
 // different 50-square page than the one currently visible.
 function updatePageChip(chipEl, position) {
+  if (!chipEl) return; // defensive: don't let a missing element break rendering
   const playerPage = pageOf(position);
   if (playerPage === currentPage) {
     chipEl.hidden = true;
@@ -298,7 +301,6 @@ function moveCurrentPlayer(steps) {
   player.position = newPos;
 
   ensurePageVisible(newPos, true);
-  renderPlayerBar();
 
   if (newPos >= BOARD_SIZE) {
     setTimeout(() => showWin(currentId), 400);
@@ -374,9 +376,9 @@ function showWin(playerId) {
   banner.className = 'win-banner';
   banner.id = 'win-banner';
   banner.innerHTML = `
-    <div class="modal-heart">👑</div>
+    <div class="win-banner-avatar"><img src="${player.img}" alt="${player.name}"></div>
     <h2>${player.name} WINS!</h2>
-    <p>Reached square 200 first ${player.icon}</p>
+    <p>Reached square 200 first 👑</p>
     <button class="modal-btn modal-btn-accept" id="btn-play-again" style="max-width:200px;padding:14px 28px;">PLAY AGAIN</button>
   `;
   document.body.appendChild(banner);
@@ -388,8 +390,8 @@ function showWin(playerId) {
 }
 
 function resetGame() {
-  state.players.vamp = { name: 'VAMP', icon: '🧛', position: 1, skips: 0, accepted: 0 };
-  state.players.rabbit = { name: 'RABBIT', icon: '🐰', position: 1, skips: 0, accepted: 0 };
+  state.players.vamp = { name: 'VAMP', img: 'assets/vamp.png', position: 1, skips: 0, accepted: 0 };
+  state.players.rabbit = { name: 'RABBIT', img: 'assets/rabbit.png', position: 1, skips: 0, accepted: 0 };
   state.currentTurnIndex = 0;
   state.history = [];
   currentPage = 0;
@@ -410,7 +412,6 @@ function closeRules() {
    Event Listeners
    ---------------------------------------------------------- */
 diceBtn.addEventListener('click', rollDice);
-btnUndo.addEventListener('click', undo);
 btnRules.addEventListener('click', openRules);
 btnCloseRules.addEventListener('click', closeRules);
 btnAccept.addEventListener('click', handleAccept);
