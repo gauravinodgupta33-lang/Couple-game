@@ -486,26 +486,7 @@ overflow:hidden;
 
 }
 
-.progress-fill{
 
-height:100%;
-
-width:0;
-
-border-radius:999px;
-
-background:
-linear-gradient(
-90deg,
-#ffd6a5,
-#ff8cb3);
-
-box-shadow:
-0 0 10px rgba(255,175,190,.45);
-
-transition:.5s;
-
-}
 
 .player-score{
 
