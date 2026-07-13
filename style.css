@@ -1629,23 +1629,25 @@ padding:24px 18px;
 }
 
 }
-/* Royal Red-Gold Gradient for LOVESICK */
 .title {
-    /* Naya Romantic Font */
-    font-family: 'Great Vibes', cursive !important; 
-    font-size: 3rem !important; /* Size thoda bada rakha hai kyunki script font chhota hota hai */
+    /* Elegant Serif Font */
+    font-family: 'Cormorant Garamond', serif !important; 
+    font-size: 2.8rem !important;
     text-align: center !important;
-    font-weight: 500 !important;
-    margin: 15px 0 !important;
+    font-weight: 600 !important;
+    margin: 20px 0 !important;
 
-    /* Romantic Rose-Gold Gradient */
-    background: linear-gradient(to right, #ff9a9e 0%, #fad0c4 50%, #fecfef 100%) !important;
+    /* Moody Romantic Gradient (Deep Plum to Soft Mauve) */
+    background: linear-gradient(135deg, #4b0082 0%, #9b59b6 50%, #e0b0ff 100%) !important;
+    
     -webkit-background-clip: text !important;
     background-clip: text !important;
     color: transparent !important;
 
-    /* Extra Aesthetic Glow */
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.2) !important;
+    /* Aesthetic Polish */
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 3px !important; /* Thoda space rakha hai premium feel ke liye */
     z-index: 999 !important;
-    letter-spacing: 1px !important;
 }
+
