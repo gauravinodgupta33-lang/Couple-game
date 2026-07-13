@@ -163,6 +163,23 @@ body {
   letter-spacing: 0.5px;
 }
 
+.page-chip {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #ffd9e6;
+  background: rgba(233, 100, 145, 0.22);
+  border: 1px solid rgba(255, 158, 194, 0.35);
+  border-radius: 999px;
+  padding: 2px 8px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.player-info-right .page-chip {
+  align-self: flex-end;
+}
+
 /* ============ Turn Pill ============ */
 .turn-pill {
   flex-shrink: 0;
