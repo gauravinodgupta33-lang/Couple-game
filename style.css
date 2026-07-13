@@ -579,14 +579,32 @@ background:#ffffff12;
 /* =====================================================
    BOARD
 ===================================================== */
-.board-wrap {
-    position: relative;
-    padding: 30px !important; /* Board ka andar ka area bada kiya */
-    border-radius: 30px !important;
-    background: linear-gradient(180deg, rgba(28,10,20,.95), rgba(11,5,9,.98));
-    border: 1px solid rgba(255,255,255,.1);
-    box-shadow: 0 20px 50px rgba(0,0,0,.6);
-    margin-bottom: 35px !important;
+.board-wrap{
+
+position:relative;
+
+padding:18px;
+
+border-radius:26px;
+
+background:
+linear-gradient(
+180deg,
+rgba(28,10,20,.92),
+rgba(11,5,9,.95));
+
+border:1px solid rgba(255,255,255,.08);
+
+box-shadow:
+
+0 18px 45px rgba(0,0,0,.45),
+
+inset 0 1px rgba(255,255,255,.05);
+
+overflow:hidden;
+
+margin-bottom:28px;
+   
 
 /* Decorative shine */
 
