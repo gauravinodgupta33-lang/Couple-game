@@ -827,8 +827,8 @@ TOKENS
     justify-content: center;
 }
 .token {
-    width: 40px !important; /* Thoda adjust kiya size */
-    height: 48px !important;
+    width: 100px !important; /* Thoda adjust kiya size */
+    height: 108px !important;
     background: none !important;
     border: none !important;
     display: flex !important;
