@@ -372,35 +372,49 @@ flex-direction:row-reverse;
 
 }
 
-/* Avatar Ring: Ring hatayi, Glow add kiya */
-.avatar-ring {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    padding: 0; 
-    background: transparent !important; /* Ring ka gradient hata diya */
-    border: none !important;            /* Gold border hata diya */
-    
-    /* Glow Effect */
-    box-shadow: 0 0 20px rgba(255, 170, 190, 0.6) !important; 
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    overflow: visible !important; /* Head cut nahi hoga */
-    margin-top: -15px !important; /* Upar push kiya */
+.avatar-ring{
+
+width:60px;
+
+height:60px;
+
+border-radius:50%;
+
+padding:2px;
+
+background:
+linear-gradient(
+135deg,
+#fff,
+#ffd7af,
+#f39bb0,
+#a53d66);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+box-shadow:
+
+0 0 22px rgba(255,170,190,.25);
+
+flex-shrink:0;
+
 }
 
-/* Avatar Image: Head cut hone se bachane ke liye */
 .avatar-img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    object-fit: cover;
-    object-position: top center; /* Face ko top se align rakhega */
-    animation: breathing 3s ease-in-out infinite;
-    transition: .3s;
+    
+    /* Ye wala change karo */
+    object-fit: cover; 
+    object-position: top center; /* Image ka top part (head) center mein rahega */
+    
+    animation: breathing 4s ease-in-out infinite;
+    transition: .4s;
 }
    
 
