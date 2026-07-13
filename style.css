@@ -250,3 +250,132 @@ body{
 #dice:hover{
     transform:scale(1.08) rotate(10deg);
 }
+/*========================================
+        STYLE PART 3
+========================================*/
+
+/* Remove bottom navigation */
+.bottom-nav{
+    display:none;
+}
+
+/* Game Board Placeholder */
+.game-board{
+    min-height:480px;
+    margin-top:20px;
+}
+
+/* Premium Popup Overlay */
+
+.popup-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(8px);
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    z-index:999;
+}
+
+/* Task Card */
+
+.task-card{
+
+    width:90%;
+    max-width:360px;
+
+    background:#1b1016;
+
+    border-radius:28px;
+
+    border:2px solid rgba(255,110,170,.35);
+
+    box-shadow:
+        0 0 35px rgba(255,90,160,.45);
+
+    padding:28px;
+
+    text-align:center;
+
+    color:white;
+
+}
+
+.task-card h2{
+
+    color:#ff8cc4;
+
+    margin-bottom:15px;
+
+    letter-spacing:2px;
+
+}
+
+.task-card p{
+
+    font-size:18px;
+
+    line-height:1.7;
+
+    color:#ffe8f2;
+
+    margin-bottom:30px;
+
+}
+
+/* Buttons */
+
+.task-card button{
+
+    width:100%;
+
+    margin-top:12px;
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:15px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+/* Complete */
+
+.complete-btn{
+
+    background:linear-gradient(180deg,#ff8ec7,#ff4b93);
+
+    color:white;
+
+}
+
+/* Free Skip */
+
+.skip-btn{
+
+    background:#2b1a22;
+
+    color:#ffd6e8;
+
+    border:1px solid rgba(255,110,170,.35);
+
+}
+
+.task-card button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 0 18px rgba(255,100,170,.35);
+
+}
