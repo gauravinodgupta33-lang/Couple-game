@@ -4,118 +4,317 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lovesick — A Cosy Game for Two</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="app">
 
-  <!-- ===== Header ===== -->
-  <header class="header">
-    <p class="tagline">♥ &nbsp;A COSY GAME FOR TWO&nbsp; ♥</p>
-    <h1 class="title">LOVESICK</h1>
-    <div class="title-divider">
-      <span class="line"></span>
-      <span class="heart">♥</span>
-      <span class="line"></span>
-    </div>
-  </header>
+    <!-- Decorative Background -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
 
-  <!-- ===== Player bar ===== -->
-  <section class="player-bar">
+    <!-- ================= HEADER ================= -->
 
-    <div class="player player-left" id="player-vamp">
-      <div class="avatar-ring">
-        <img class="avatar-img" src="assets/vamp.png" alt="Vamp">
-      </div>
-      <div class="player-info">
-        <span class="player-name">VAMP</span>
-        <div class="progress-track">
-          <div class="progress-fill" id="progress-vamp"></div>
+    <header class="header">
+
+        <p class="tagline">
+            ♥ A COSY GAME FOR TWO ♥
+        </p>
+
+        <h1 class="title">
+            <span>L</span>
+            <span>O</span>
+            <span>V</span>
+            <span>E</span>
+            <span>S</span>
+            <span>I</span>
+            <span>C</span>
+            <span>K</span>
+        </h1>
+
+        <div class="title-divider">
+            <span class="line"></span>
+            <span class="heart">♥</span>
+            <span class="line"></span>
         </div>
-        <span class="player-score" id="score-vamp">1 / 200</span>
-        <span class="page-chip" id="page-chip-vamp" hidden>off-screen</span>
-      </div>
-    </div>
 
-    <div class="turn-pill" id="turn-pill">
-      <span id="turn-text">VAMP'S TURN</span>
-      <span class="turn-icon">♥</span>
-      <span class="skip-badge" id="skip-badge" hidden>0 skips</span>
-    </div>
+    </header>
 
-    <div class="player player-right" id="player-rabbit">
-      <div class="player-info player-info-right">
-        <span class="player-name">RABBIT</span>
-        <div class="progress-track">
-          <div class="progress-fill" id="progress-rabbit"></div>
+    <!-- ================= PLAYER BAR ================= -->
+
+    <section class="player-bar">
+
+        <!-- LEFT PLAYER -->
+
+        <div class="player player-left" id="player-vamp">
+
+            <div class="avatar-ring">
+                <img
+                    class="avatar-img"
+                    src="assets/vamp.png"
+                    alt="Vamp">
+            </div>
+
+            <div class="player-info">
+
+                <span class="player-name">
+                    VAMP
+                </span>
+
+                <div class="progress-track">
+                    <div
+                        class="progress-fill"
+                        id="progress-vamp">
+                    </div>
+                </div>
+
+                <span
+                    class="player-score"
+                    id="score-vamp">
+                    1 / 200
+                </span>
+
+                <span
+                    class="page-chip"
+                    id="page-chip-vamp"
+                    hidden>
+                    off-screen
+                </span>
+
+            </div>
+
         </div>
-        <span class="player-score" id="score-rabbit">1 / 200</span>
-        <span class="page-chip" id="page-chip-rabbit" hidden>off-screen</span>
-      </div>
-      <div class="avatar-ring">
-        <img class="avatar-img" src="assets/rabbit.png" alt="Rabbit">
-      </div>
-    </div>
 
-  </section>
+        <!-- TURN -->
 
-  <!-- ===== Board ===== -->
-  <section class="board-wrap">
-    <div class="board" id="board">
-      <!-- 5 rows x 10 cols = 50 squares injected per page by JS -->
-    </div>
-  </section>
+        <div
+            class="turn-pill"
+            id="turn-pill">
 
-  <!-- ===== Controls ===== -->
-  <footer class="controls">
-    <div class="dice-wrap">
-      <button class="dice-btn" id="dice-btn" aria-label="Roll dice">
-        <span class="dice-face" id="dice-face">⚄</span>
-      </button>
-      <span class="dice-label" id="dice-label">TAP TO ROLL</span>
-    </div>
+            <span id="turn-text">
+                VAMP'S TURN
+            </span>
 
-    <button class="btn btn-rules" id="btn-rules">
-      <span class="btn-icon">📖</span>
-      <span>RULES</span>
-    </button>
-  </footer>
+            <span class="turn-icon">
+                ♥
+            </span>
+
+            <span
+                class="skip-badge"
+                id="skip-badge"
+                hidden>
+                0 skips
+            </span>
+
+        </div>
+
+        <!-- RIGHT PLAYER -->
+
+        <div class="player player-right" id="player-rabbit">
+
+            <div class="player-info player-info-right">
+
+                <span class="player-name">
+                    RABBIT
+                </span>
+
+                <div class="progress-track">
+                    <div
+                        class="progress-fill"
+                        id="progress-rabbit">
+                    </div>
+                </div>
+
+                <span
+                    class="player-score"
+                    id="score-rabbit">
+                    1 / 200
+                </span>
+
+                <span
+                    class="page-chip"
+                    id="page-chip-rabbit"
+                    hidden>
+                    off-screen
+                </span>
+
+            </div>
+
+            <div class="avatar-ring">
+                <img
+                    class="avatar-img"
+                    src="assets/rabbit.png"
+                    alt="Rabbit">
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= BOARD ================= -->
+
+    <section class="board-wrap">
+
+        <div
+            class="board"
+            id="board">
+
+        </div>
+
+    </section>
+
+    <!-- ================= CONTROLS ================= -->
+
+    <footer class="controls">
+
+        <div class="dice-wrap">
+
+            <button
+                class="dice-btn"
+                id="dice-btn"
+                aria-label="Roll Dice">
+
+                <span
+                    class="dice-face"
+                    id="dice-face">
+                    ⚄
+                </span>
+
+            </button>
+
+            <span
+                class="dice-label"
+                id="dice-label">
+
+                TAP TO ROLL
+
+            </span>
+
+        </div>
+
+        <button
+            class="btn btn-rules"
+            id="btn-rules">
+
+            <span class="btn-icon">
+                📖
+            </span>
+
+            <span>
+                RULES
+            </span>
+
+        </button>
+
+    </footer>
 
 </div>
 
-<!-- ===== Task Popup Modal ===== -->
-<div class="modal-overlay" id="task-modal" hidden>
-  <div class="modal-card">
-    <div class="modal-heart">♥</div>
-    <h2 class="modal-square-label" id="modal-square-label">Square 0</h2>
-    <p class="modal-task-text" id="modal-task-text">Task text goes here.</p>
-    <div class="modal-actions">
-      <button class="modal-btn modal-btn-skip" id="btn-skip">SKIP</button>
-      <button class="modal-btn modal-btn-accept" id="btn-accept">ACCEPT</button>
-    </div>
-    <p class="modal-hint" id="modal-hint">Complete 3 accepted tasks to earn 1 skip</p>
-  </div>
+<!-- ================= TASK MODAL ================= -->
+
+<div
+class="modal-overlay"
+id="task-modal"
+hidden>
+
+<div class="modal-card">
+
+<div class="modal-heart">♥</div>
+
+<h2
+class="modal-square-label"
+id="modal-square-label">
+Square 0
+</h2>
+
+<p
+class="modal-task-text"
+id="modal-task-text">
+Task text
+</p>
+
+<div class="modal-actions">
+
+<button
+class="modal-btn modal-btn-skip"
+id="btn-skip">
+SKIP
+</button>
+
+<button
+class="modal-btn modal-btn-accept"
+id="btn-accept">
+ACCEPT
+</button>
+
 </div>
 
-<!-- ===== Rules Modal ===== -->
-<div class="modal-overlay" id="rules-modal" hidden>
-  <div class="modal-card">
-    <div class="modal-heart">♥</div>
-    <h2 class="modal-square-label">How to Play</h2>
-    <ul class="rules-list">
-      <li>Tap the dice to roll and move your token forward.</li>
-      <li>Landing on a square pops up a task — Accept it or Skip it.</li>
-      <li>Skipping doesn't end your turn — roll again and move onward from where you are.</li>
-      <li>Accept 3 tasks to earn 1 skip charge for later.</li>
-      <li>First to reach square 200 wins!</li>
-    </ul>
-    <div class="modal-actions modal-actions-single">
-      <button class="modal-btn modal-btn-accept" id="btn-close-rules">GOT IT</button>
-    </div>
-  </div>
+<p
+class="modal-hint"
+id="modal-hint">
+
+Complete 3 accepted tasks to earn 1 skip.
+
+</p>
+
+</div>
+
+</div>
+
+<!-- ================= RULES ================= -->
+
+<div
+class="modal-overlay"
+id="rules-modal"
+hidden>
+
+<div class="modal-card">
+
+<div class="modal-heart">♥</div>
+
+<h2 class="modal-square-label">
+How to Play
+</h2>
+
+<ul class="rules-list">
+
+<li>Roll the dice and move.</li>
+
+<li>Every square contains a task.</li>
+
+<li>Skip keeps your turn alive.</li>
+
+<li>3 accepted tasks = 1 Skip.</li>
+
+<li>Reach 200 first to win.</li>
+
+</ul>
+
+<div class="modal-actions modal-actions-single">
+
+<button
+class="modal-btn modal-btn-accept"
+id="btn-close-rules">
+
+GOT IT
+
+</button>
+
+</div>
+
+</div>
+
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
