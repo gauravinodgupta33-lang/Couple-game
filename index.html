@@ -3,102 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DESIRE</title>
-
+    <title>Lovesick: A Cosy Game for Two</title>
     <link rel="stylesheet" href="style.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-    <div class="background-glow"></div>
-
-    <div class="app">
-
-        <!-- Header -->
-        <header class="top-header">
-
-
-            <div class="game-title">
-                <p>A cossy game for two</p>
-                <h1>Lovesick</h1>
-            </div>
-
-
+    <div class="game-container">
+        <header class="game-header">
+            <h1 class="game-title">LOVESICK</h1>
+            <div class="turn-indicator" id="turn-display">VAMP'S TURN 🧛‍♂️</div>
         </header>
 
-        <!-- Players -->
-        <section class="players">
-
-            <!-- Left Player -->
-            <div class="player left-player">
-
-                <div class="avatar">
-                    🧛‍♂️
+        <div class="stats-bar">
+            <div class="player-profile" id="vamp-profile">
+                <div class="avatar vamp-avatar"></div>
+                <div class="stats">
+                    <span class="name">VAMP</span>
+                    <div class="progress-bar"><div class="fill" id="vamp-progress"></div></div>
+                    <span class="count">1 / 200</span>
                 </div>
-
-                <div class="player-info">
-                    <h2>VAMP</h2>
-
-                    <div class="progress">
-                        <div class="fill"></div>
-                    </div>
-                </div>
-
             </div>
-
-            <!-- Turn -->
-            <div class="turn-box">
-                VAMP'S TURN 😈
-            </div>
-
-            <!-- Right Player -->
-            <div class="player right-player">
-
-                <div class="player-info">
-
-                    <h2>RABBIT</h2>
-
-                    <div class="progress">
-                        <div class="fill"></div>
-                    </div>
-
+            
+            <div class="player-profile" id="rabbit-profile">
+                <div class="stats">
+                    <span class="name">RABBIT</span>
+                    <div class="progress-bar"><div class="fill" id="rabbit-progress"></div></div>
+                    <span class="count">1 / 200</span>
                 </div>
-
-                <div class="avatar">
-                    🐰
-                </div>
-
+                <div class="avatar rabbit-avatar"></div>
             </div>
-
-        </section>
-
-        <!-- Game Board -->
-        <main class="game-board">
-
-        </main>
-
-        <!-- Dice -->
-        <div class="dice-section">
-
-            <button class="undo-btn">
-                Undo
-            </button>
-
-            <button id="dice">
-                🎲
-            </button>
-
-            <button class="rules-btn">
-                Rules
-            </button>
-
         </div>
 
+        <main class="board-viewport">
+            <div id="board-track" class="board-track">
+                </div>
+
+            <div class="token-layer">
+                <div id="token-vamp" class="token vamp">
+                    <img src="vamp-icon.png" alt="Vamp" />
+                </div>
+                <div id="token-rabbit" class="token rabbit">
+                    <img src="rabbit-icon.png" alt="Rabbit" />
+                </div>
+            </div>
+
+            <div id="overlay-container" class="overlay-container">
+                <div id="task-card" class="task-card">
+                    <h3 id="task-title">Task Name</h3>
+                    <p id="task-text">Task details go here...</p>
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="acceptTask()">Accept</button>
+                        <button class="btn-secondary" onclick="skipTask()">Skip</button>
+                    </div>
+                    <div class="skips-remaining">
+                        Skips: <span id="skip-count">3</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="game-footer">
+            <button class="undo-btn">UNDO</button>
+            <button id="roll-btn" class="roll-dice-btn">
+                <div class="dice-icon">🎲</div>
+                <span class="btn-text">TAP TO ROLL</span>
+            </button>
+            <button class="rules-btn">RULES</button>
+        </footer>
+
+        <div id="notification-toast" class="notification-toast hidden"></div>
+
+        <div class="audio-engine">
+            <audio id="sfx-roll" src="assets/roll.mp3" preload="auto"></audio>
+            <audio id="sfx-move" src="assets/move.mp3" preload="auto"></audio>
+            <audio id="sfx-popup" src="assets/popup.mp3" preload="auto"></audio>
+        </div>
+
+        <div id="preloader" class="preloader">
+            <div class="spinner"></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
