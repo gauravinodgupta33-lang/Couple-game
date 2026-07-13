@@ -1,394 +1,59 @@
-/* ===========================
-   DESIRE GAME - STYLE PART 1
-=========================== */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+/* 1. Global Reset & Dark Theme */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif; /* You can change this to a cute font later */
 }
 
-body{
-    background:#090507;
-    color:#fff;
-    min-height:100vh;
-    overflow-x:hidden;
+body {
+    background-color: #0a0a0a; /* Deep dark background */
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.background-glow{
-    position:fixed;
-    inset:0;
-    background:
-    radial-gradient(circle at top,#ff4f8b33,transparent 40%),
-    radial-gradient(circle at bottom,#ff4f8b22,transparent 45%);
-    z-index:-1;
+.game-container {
+    width: 100%;
+    max-width: 400px; /* Perfect for mobile */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    position: relative;
 }
 
-.app{
-    width:100%;
-    max-width:550px;
-    margin:0 auto;
-
-    min-height:100vh;
-
-    display:flex;
-    flex-direction:column;
-
-    padding:20px;
-    box-sizing:border-box;
+/* 2. Fix the Modal Overlay */
+.overlay-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none; /* This hides the task modal until we trigger it with JS */
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
 }
 
-/* ================= Header ================= */
-.top-header{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin-bottom:25px;
+/* 3. Basic Board Viewport Setup */
+.board-viewport {
+    flex-grow: 1;
+    overflow-y: auto; /* This allows the scrolling you wanted */
+    margin: 20px 0;
+    border: 1px solid #333;
+    border-radius: 10px;
+    background: #111;
+    position: relative;
 }
 
-.music-btn,
-.reward-btn{
-    border:none;
-    outline:none;
-    color:#ffd9e7;
-    cursor:pointer;
-    background:#1b1116;
-    border:1px solid rgba(255,130,170,.35);
-    border-radius:18px;
-    padding:10px 18px;
-    box-shadow:0 0 18px rgba(255,70,130,.15);
-}
-
-.game-title{
-    text-align:center;
-}
-
-.game-title p{
-    font-size:11px;
-    letter-spacing:3px;
-    color:#ffc8d8;
-    text-transform:uppercase;
-    margin-bottom:6px;
-}
-
-.game-title h1{
-    font-size:58px;
-    font-weight:700;
-    letter-spacing:8px;
-    color:#ffd8e6;
-    text-shadow:
-        0 0 12px #ff6ba8,
-        0 0 28px rgba(255,105,180,.45);
-}
-
-/* ================= Players ================= */
-
-.players{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    margin-bottom:25px;
-}
-
-.player{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.avatar{
-    width:65px;
-    height:65px;
-    border-radius:50%;
-    background:#24141c;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:34px;
-    border:2px solid #ff6ba8;
-    box-shadow:0 0 18px rgba(255,105,180,.45);
-}
-
-.player-info h2{
-    font-size:20px;
-    color:#ffe2ec;
-}
-
-.progress{
-    width:90px;
-    height:8px;
-    border-radius:30px;
-    background:#2f1c25;
-    overflow:hidden;
-    margin-top:6px;
-}
-
-.fill{
-    width:10%;
-    height:100%;
-    background:#ff82b4;
-}
-
-.turn-box{
-    flex:1;
-    text-align:center;
-    background:#23141b;
-    border:1px solid rgba(255,130,180,.35);
-    border-radius:25px;
-    padding:15px;
-    color:#ffe5ef;
-    font-weight:600;
-    box-shadow:0 0 18px rgba(255,105,180,.25);
-}
-
-/*======================================
-        GAME BOARD - PART 2
-======================================*/
-.game-board{
-    flex:1;
-
-    width:100%;
-
-    margin:20px 0;
-
-    background:#180d14;
-
-    border:1px solid rgba(255,120,180,.2);
-
-    border-radius:28px;
-
-    box-shadow:0 0 25px rgba(255,100,170,.25);
-
-    overflow-y:auto;
-
-    min-height:300px;
-}
-
-.tile{
-    aspect-ratio:1;
-    border-radius:14px;
-    background:#23141b;
-    border:1px solid rgba(255,140,190,.15);
-    color:#ffdbe7;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    font-size:15px;
-    font-weight:600;
-
-    transition:.25s;
-}
-
-.tile:hover{
-    transform:translateY(-3px);
-    border-color:#ff7fb7;
-    box-shadow:0 0 15px rgba(255,120,180,.45);
-}
-
-.tile.active{
-    background:linear-gradient(180deg,#ff7ab7,#ff4f92);
-    color:#fff;
-    box-shadow:0 0 18px #ff6aac;
-}
-
-.tile.finish{
-    background:linear-gradient(180deg,#ffd76a,#ffb300);
-    color:#111;
-    font-weight:700;
-}
-
-.tile.start{
-    background:linear-gradient(180deg,#ff82c2,#ff5b98);
-    color:#fff;
-    font-weight:700;
-}
-
-/*==============================
-        DICE SECTION
-==============================*/
-
-.dice-section{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-top:20px;
-}
-.undo-btn,
-.rules-btn{
-    width:95px;
-    height:45px;
-
-    border:none;
-    border-radius:25px;
-
-    background:#23141b;
-    color:#ffdbe6;
-
-    border:1px solid rgba(255,120,180,.3);
-
-    cursor:pointer;
-}
-
-#dice{
-    width:95px;
-    height:95px;
-
-    border:none;
-    border-radius:50%;
-
-    font-size:42px;
-
-    background:linear-gradient(180deg,#ff83c1,#ff4e91);
-
-    color:white;
-
-    box-shadow:
-        0 0 20px rgba(255,100,170,.7),
-        0 0 50px rgba(255,100,170,.35);
-
-    cursor:pointer;
-
-    transition:.3s;
-}
-
-#dice:hover{
-    transform:scale(1.08) rotate(10deg);
-}
-/*========================================
-        STYLE PART 3
-========================================*/
-
-/* Remove bottom navigation */
-.bottom-nav{
-    display:none;
-}
-
-/* Game Board Placeholder */
-.game-board{
-    width:100%;
-    height:420px;
-    margin:20px auto;
-    overflow-y:auto;
-    border-radius:25px;
-}
-}
-
-/* Premium Popup Overlay */
-
-.popup-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(8px);
-
-    display:none;
-    justify-content:center;
-    align-items:center;
-
-    z-index:999;
-}
-
-/* Task Card */
-
-.task-card{
-
-    width:90%;
-    max-width:360px;
-
-    background:#1b1016;
-
-    border-radius:28px;
-
-    border:2px solid rgba(255,110,170,.35);
-
-    box-shadow:
-        0 0 35px rgba(255,90,160,.45);
-
-    padding:28px;
-
-    text-align:center;
-
-    color:white;
-
-}
-
-.task-card h2{
-
-    color:#ff8cc4;
-
-    margin-bottom:15px;
-
-    letter-spacing:2px;
-
-}
-
-.task-card p{
-
-    font-size:18px;
-
-    line-height:1.7;
-
-    color:#ffe8f2;
-
-    margin-bottom:30px;
-
-}
-
-/* Buttons */
-
-.task-card button{
-
-    width:100%;
-
-    margin-top:12px;
-
-    border:none;
-
-    border-radius:18px;
-
-    padding:15px;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-}
-
-/* Complete */
-
-.complete-btn{
-
-    background:linear-gradient(180deg,#ff8ec7,#ff4b93);
-
-    color:white;
-
-}
-
-/* Free Skip */
-
-.skip-btn{
-
-    background:#2b1a22;
-
-    color:#ffd6e8;
-
-    border:1px solid rgba(255,110,170,.35);
-
-}
-
-.task-card button:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:0 0 18px rgba(255,100,170,.35);
-
+.board-track {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 squares per row */
+    gap: 10px;
+    padding: 10px;
 }
