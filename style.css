@@ -57,3 +57,60 @@ body {
     gap: 10px;
     padding: 10px;
 }
+/* --- Board & Grid Styling --- */
+
+/* The outer container that allows scrolling */
+.board-viewport {
+    width: 100%;
+    height: 60vh; /* Adjust height as needed */
+    overflow-y: auto; /* This makes it scroll automatically */
+    background: #0d0d0d;
+    border: 2px solid #332222; /* Dark reddish border */
+    border-radius: 20px;
+    padding: 10px;
+    position: relative;
+    box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.1);
+}
+
+/* The grid container that will hold the 200 squares */
+.board-track {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* 10 squares per row */
+    gap: 8px; /* Space between squares */
+}
+
+/* The individual squares (Style for the future JS-injected squares) */
+.square {
+    aspect-ratio: 1 / 1; /* Makes them perfectly square */
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+}
+
+/* Glowing effect for the squares */
+.square:hover {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+}
+
+/* Styling the Tokens */
+.token-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none; /* Let clicks pass through to the board */
+}
+
+.token {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    transition: all 0.5s ease-in-out;
+}
