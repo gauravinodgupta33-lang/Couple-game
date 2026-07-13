@@ -320,19 +320,36 @@ filter:drop-shadow(0 0 8px pink);
 PLAYER BAR
 ========================== */
 
-.player-bar {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 12px !important;
-    padding: 5px 15px !important; /* Slimmer */
-    margin-top: -35px !important; /* Shifted Up */
-    border-radius: 50px !important;
-    background: rgba(0, 0, 0, 0.4) !important; /* Premium dark glass */
-    backdrop-filter: blur(10px) !important;
-    border: 1px solid rgba(255, 215, 0, 0.3) !important; /* Gold border */
-    overflow: visible !important; /* IMPORTANT: Avatars ko bahar nikalne deta hai */
-    z-index: 10 !important;
+.player-bar{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+padding:14px;
+
+border-radius:22px;
+
+background:
+linear-gradient(
+180deg,
+rgba(36,14,25,.92),
+rgba(15,6,12,.95));
+
+border:1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(18px);
+
+box-shadow:
+
+0 10px 35px rgba(0,0,0,.5),
+
+inset 0 1px rgba(255,255,255,.08);
+
+margin-bottom:20px;
+
 }
 
 .player{
@@ -357,18 +374,37 @@ flex-direction:row-reverse;
 
 /* Premium Portrait */
 
-.avatar-ring {
-    width: 60px !important;
-    height: 60px !important;
-    border-radius: 50% !important;
-    padding: 2px !important;
-    border: 3px solid #D4AF37 !important; /* Gold Ring */
-    background: #000 !important;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5) !important;
-    overflow: visible !important; /* Masking hata di */
-    margin-top: -10px !important; /* Thoda upar push kiya */
-}
+.avatar-ring{
 
+width:60px;
+
+height:60px;
+
+border-radius:50%;
+
+padding:2px;
+
+background:
+linear-gradient(
+135deg,
+#fff,
+#ffd7af,
+#f39bb0,
+#a53d66);
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+box-shadow:
+
+0 0 22px rgba(255,170,190,.25);
+
+flex-shrink:0;
+
+}
 
 .avatar-img{
 
@@ -485,21 +521,35 @@ opacity:.65;
 
 /* NEW TURN PILL */
 
-.turn-pill {
-    padding: 4px 12px !important;
-    border-radius: 20px !important;
-    background: linear-gradient(135deg, #4a0000 0%, #8B0000 100%) !important;
-    border: 1px solid #FFD700 !important;
-    color: #FFD700 !important;
-    font-size: 0.8rem !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
+.turn-pill{
 
+padding:8px 14px;
+
+border-radius:888px;
+
+background:
+linear-gradient(
+180deg,
+#5d2340,
+#32101d);
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:center;
+
+gap:2px;
+
+min-width:92px;
+
+border:1px solid rgba(255,255,255,.10);
+
+box-shadow:0 6px 20px rgba(0,0,0,.35);
+
+}
 
 #turn-text{
 
@@ -1578,16 +1628,23 @@ padding:24px 18px;
 
 }
 
-}.title {
-    display: block !important; 
-    font-size: 2.2rem !important; /* Size set kar lo */
-    letter-spacing: 6px;          /* Aesthetic gap */
-    text-align: center;
-    color: #ffffff !important;
-    margin: 15px 0;               /* Upar niche space */
-    font-family: 'Cinzel', serif;  /* Agar ye font link hai toh */
-    text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    z-index: 999 !important;
 }
-
+/* Royal Red-Gold Gradient for LOVESICK */
+.title {
+    font-family: 'Dancing Script', cursive !important;
+    font-size: 3.5rem !important;
+    text-align: center !important;
+    font-weight: 700 !important;
+    margin: 20px 0 !important;
+    
+    /* Gradient Styling */
+    background: linear-gradient(45deg, #8B0000 30%, #FFD700 90%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    color: transparent !important;
+    
+    /* Extra Aesthetic */
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3) !important;
+    text-transform: uppercase !important;
+    z-index: 999 !important;
+   }
