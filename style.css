@@ -406,20 +406,19 @@ flex-shrink:0;
 
 }
 
-.avatar-img{
-
-width:100%;
-
-height:100%;
-
-border-radius:50%;
-object-fit:cover;
-
-animation:breathing 5s ease-in-out infinite;
-
-transition:.5s;
-
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    
+    /* Ye wala change karo */
+    object-fit: cover; 
+    object-position: top center; /* Image ka top part (head) center mein rahega */
+    
+    animation: breathing 4s ease-in-out infinite;
+    transition: .4s;
 }
+
 
 @keyframes breathing{
 
@@ -431,7 +430,7 @@ transform:scale(1);
 
 50%{
 
-transform:scale(1.5);
+transform:scale(1.1);
 
 }
 
