@@ -139,15 +139,24 @@ function renderBoard(animateSwap = false) {
       if (occupants.length) {
         const tokenWrap = document.createElement('div');
         tokenWrap.className = 'square-tokens';
-        occupants.forEach(id => {
+                occupants.forEach(id => {
           const t = document.createElement('div');
           t.className = 'token' + (id === 'rabbit' ? ' token-rabbit' : '');
+
+          // --- YEH NAYA CODE ADD KARNA HAI ---
+          const movingId = state.turnOrder[state.currentTurnIndex];
+          if (state.isRolling && id === movingId) {
+            t.classList.add('animate-hop');
+          }
+          // -----------------------------------
+
           const img = document.createElement('img');
           img.src = state.players[id].img;
           img.alt = state.players[id].name;
           t.appendChild(img);
           tokenWrap.appendChild(t);
         });
+         
         sq.appendChild(tokenWrap);
       }
 
