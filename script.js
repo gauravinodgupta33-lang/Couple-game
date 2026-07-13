@@ -63,9 +63,27 @@ const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 /* ----------------------------------------------------------
    Task Hook (Example: 10 Tasks)
    ---------------------------------------------------------- */
+/* ----------------------------------------------------------
+   Task Hook (FIXED VERSION)
+   ---------------------------------------------------------- */
 function getTaskForSquare(squareNumber) {
-    return "abhishek ki bandi bghhhhchhag gyi";
+    const tasks = {
+        1: "Apne partner ko 1 minute tak aankhon mein dekho.",
+        2: "Partner ko ek cute sa compliment do.",
+        3: "Koi secret baat batao.",
+        4: "Agle 2 rounds tak whispering mein baat karni hai.",
+        5: "Partner ke liye ek gaana gao.",
+        6: "Partner ka haath pakad kar unki tareef karo.",
+        7: "Ek dusre ko 10 seconds tak hug karo.",
+        8: "Apne favorite dating spot ke baare mein batao.",
+        9: "Agle turn mein agar tumhare paas skip ho, toh usey partner ko dedo.",
+        10: "Partner ko ek 'air kiss' do!"
+    };
+
+    // Agar task list mein mila toh wo dikhao, varna default message
+    return tasks[squareNumber] || `Square ${squareNumber}: Ek sweet baat bolo!`;
 }
+
 
 
 /* ----------------------------------------------------------
