@@ -1,10 +1,15 @@
 /* ==========================================================
-   LOVESICK — Game Logic
+   LOVESICK — Game Logic (Original Structure + Hopping Logic)
    ========================================================== */
 
 const BOARD_SIZE = 200;
 const PAGE_SIZE = 50;      // squares shown at once
 const ROW_LEN = 10;        // squares per row (matches 10-col CSS grid)
+
+/* ----------------------------------------------------------
+   Helper: Added for the hopping animation
+   ---------------------------------------------------------- */
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /* ----------------------------------------------------------
    Game State
@@ -53,8 +58,7 @@ const pageChipRabbit  = document.getElementById('page-chip-rabbit');
 const DICE_FACES = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
 
 /* ----------------------------------------------------------
-   Task Hook — YOU fill this in with real tasks later.
-   Must return a string. squareNumber is passed for context.
+   Task Hook
    ---------------------------------------------------------- */
 function getTaskForSquare(squareNumber) {
   return "abhishek ki bandi bhag gyi";
@@ -63,21 +67,17 @@ function getTaskForSquare(squareNumber) {
 /* ----------------------------------------------------------
    Snake-order board math
    ---------------------------------------------------------- */
-// Returns the row index (0-based) for a given square number
 function rowOf(n) {
   return Math.floor((n - 1) / ROW_LEN);
 }
 
-// True if this row runs right-to-left (odd rows: 2nd, 4th, ... i.e. rowOf % 2 === 1)
 function isReversedRow(rowIndex) {
   return rowIndex % 2 === 1;
 }
 
-// Builds an array of square numbers, in visual left-to-right, top-to-bottom
-// grid order, for the page (block of 50) containing `pageStart`..`pageStart+49`
 function buildPageSquares(pageStart) {
   const squares = [];
-  const rowsInPage = PAGE_SIZE / ROW_LEN; // 5
+  const rowsInPage = PAGE_SIZE / ROW_LEN;
   const baseRow = Math.floor((pageStart - 1) / ROW_LEN);
 
   for (let r = 0; r < rowsInPage; r++) {
@@ -93,11 +93,9 @@ function buildPageSquares(pageStart) {
   return squares;
 }
 
-// Which "page" (0-indexed block of 50) a square belongs to
 function pageOf(squareNumber) {
   return Math.floor((squareNumber - 1) / PAGE_SIZE);
 }
-
 /* ----------------------------------------------------------
    Rendering
    ---------------------------------------------------------- */
@@ -185,7 +183,7 @@ function renderPlayerBar() {
 // Shows a small tappable chip when a player's token is on a
 // different 50-square page than the one currently visible.
 function updatePageChip(chipEl, position) {
-  if (!chipEl) return; // defensive: don't let a missing element break rendering
+  if (!chipEl) return; 
   const playerPage = pageOf(position);
   if (playerPage === currentPage) {
     chipEl.hidden = true;
@@ -217,8 +215,7 @@ function renderTurnPill() {
 }
 
 /* ----------------------------------------------------------
-   Page auto-scroll — jump the visible 50-square block to
-   follow whichever player just moved
+   Page auto-scroll
    ---------------------------------------------------------- */
 function ensurePageVisible(squareNumber, animate = true) {
   const targetPage = pageOf(squareNumber);
@@ -257,7 +254,7 @@ function undo() {
 }
 
 /* ----------------------------------------------------------
-   Dice Roll + Movement
+   Dice Roll
    ---------------------------------------------------------- */
 function rollDice() {
   if (state.isRolling || state.isModalOpen) return;
@@ -285,32 +282,43 @@ function finishRoll() {
   diceLabel.textContent = 'TAP TO ROLL';
 
   snapshotState();
+  // Initiate the async hop movement
   moveCurrentPlayer(result);
-
-  state.isRolling = false;
-  diceBtn.disabled = false;
 }
 
-function moveCurrentPlayer(steps) {
+/* ----------------------------------------------------------
+   Movement with "Hopping" Animation
+   ---------------------------------------------------------- */
+async function moveCurrentPlayer(steps) {
   const currentId = state.turnOrder[state.currentTurnIndex];
   const player = state.players[currentId];
 
-  let newPos = player.position + steps;
-  if (newPos > BOARD_SIZE) newPos = BOARD_SIZE; // clamp at final square
+  // Loop through steps to create the hopping effect
+  for (let i = 0; i < steps; i++) {
+    if (player.position >= BOARD_SIZE) break;
 
-  player.position = newPos;
+    player.position += 1;
 
-  ensurePageVisible(newPos, true);
+    // Refresh view for each hop
+    ensurePageVisible(player.position, false);
+    
+    // Pause for the hop animation
+    await sleep(250); 
+  }
 
-  if (newPos >= BOARD_SIZE) {
+  state.isRolling = false;
+  diceBtn.disabled = false;
+
+  if (player.position >= BOARD_SIZE) {
+    player.position = BOARD_SIZE;
+    render(); // Final render
     setTimeout(() => showWin(currentId), 400);
     return;
   }
 
-  // open the task popup for the square just landed on
-  setTimeout(() => openTaskModal(currentId, newPos), 350);
+  // open the task popup ONLY after hops complete
+  setTimeout(() => openTaskModal(currentId, player.position), 350);
 }
-
 /* ----------------------------------------------------------
    Task Modal (Accept / Skip)
    ---------------------------------------------------------- */
@@ -353,9 +361,18 @@ function handleAccept() {
 
 function handleSkip() {
   if (!state.pendingSquare) return;
+  
+  // Logic: Consume a skip if available
+  const { playerId } = state.pendingSquare;
+  const player = state.players[playerId];
+  
+  if (player.skips > 0) {
+    player.skips -= 1;
+  }
+  
   closeTaskModal();
   renderTurnPill();
-  // Turn does NOT change — same player rolls again from their current square
+  // Turn does NOT change — same player keeps their turn
 }
 
 /* ----------------------------------------------------------
@@ -398,6 +415,7 @@ function resetGame() {
   render();
 }
 
+
 /* ----------------------------------------------------------
    Rules Modal
    ---------------------------------------------------------- */
@@ -417,10 +435,13 @@ btnCloseRules.addEventListener('click', closeRules);
 btnAccept.addEventListener('click', handleAccept);
 btnSkip.addEventListener('click', handleSkip);
 
-// close modals by tapping the dark overlay outside the card
+// Close modals by tapping the dark overlay outside the card
 taskModal.addEventListener('click', (e) => {
-  if (e.target === taskModal) { /* require explicit choice — no-op */ }
+  if (e.target === taskModal) { 
+    // Require explicit choice — no-op
+  }
 });
+
 rulesModal.addEventListener('click', (e) => {
   if (e.target === rulesModal) closeRules();
 });
