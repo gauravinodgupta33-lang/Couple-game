@@ -1,182 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gaurav ne banaya game </title>
     <style>
-        :root { 
-            --rose: #e11d48; 
-            --bg: #050204;
-        }
-        body { 
-            margin: 0; padding: 20px; background: var(--bg); color: #fff; 
-            font-family: 'Outfit', sans-serif; display: flex; justify-content: center; min-height: 100vh;
-        }
-        .container { max-width: 450px; width: 100%; }
+        :root { --rose: #e11d48; --bg: #050204; }
+        body { background: var(--bg); color: #fff; font-family: sans-serif; display: flex; justify-content: center; padding: 20px; }
         
-        .header { text-align: center; margin-bottom: 25px; }
-        .header h1 { font-size: 1.4rem; letter-spacing: 0.2rem; text-transform: uppercase; color: #fff; margin: 0; }
+        /* Matching the UI aesthetic */
+        .game-header { text-align: center; margin-bottom: 20px; }
+        .game-header h1 { color: #fecdd3; letter-spacing: 0.3rem; text-transform: uppercase; font-weight: 300; }
         
-        .status-bar { 
-            text-align: center; margin-bottom: 20px; padding: 15px;
-            background: rgba(225, 29, 72, 0.1); border-radius: 20px;
-            border: 1px solid var(--rose); color: var(--rose);
-            font-size: 0.9rem; font-weight: 700; text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(225, 29, 72, 0.3);
-        }
-
         .board { 
-            background: #0f080b; padding: 20px; border-radius: 35px; 
-            border: 1px solid var(--rose); box-shadow: 0 0 30px rgba(225, 29, 72, 0.2);
+            background: #110a0e; 
+            padding: 15px; 
+            border-radius: 20px; 
+            border: 1px solid #3d1a25; 
+            box-shadow: 0 0 20px rgba(225, 29, 72, 0.2);
         }
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
         
         .cell { 
-            aspect-ratio: 1; 
-            background: radial-gradient(circle at center, #2e0d16, #0f080b); 
-            border-radius: 12px; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 11px; font-weight: 800; color: rgba(255, 255, 255, 0.2); 
-            border: 1px solid rgba(225, 29, 72, 0.5);
+            width: 40px; height: 40px; 
+            background: #1a1014; 
+            border: 1px solid #331620; 
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; color: #665;
             position: relative;
         }
+
+        /* Avatar styling matching the provided UI */
+        .avatar { width: 35px; height: 35px; z-index: 10; filter: drop-shadow(0 0 5px var(--rose)); }
         
-        /* BOLD EMOJI ON TOP LAYER WITH GLOW BEHIND */
-        .token { 
-            font-size: 28px; 
-            position: absolute; 
-            z-index: 50; /* Top-most layer */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* The Glow layer behind the emoji */
-        .token::before {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: var(--rose);
-            filter: blur(15px);
-            z-index: -1; /* Behind the emoji */
-            opacity: 0.8;
-        }
-        
-        .dice-area { display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 30px 0; }
-        .dice-display { 
-            width: 70px; height: 70px; background: #0f080b; 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 28px; font-weight: 800; border-radius: 20px; 
-            border: 2px solid var(--rose); color: var(--rose);
-            box-shadow: 0 0 20px rgba(225, 29, 72, 0.4);
-        }
-
-        .roll-btn { 
-            width: 100%; padding: 18px; background: var(--rose); border: none; 
-            border-radius: 18px; color: white; font-weight: 800; cursor: pointer; 
-            text-transform: uppercase; letter-spacing: 0.15rem; 
-            box-shadow: 0 0 20px rgba(225, 29, 72, 0.5);
-        }
-
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 100; }
-        .card { 
-            background: #0d0508; border: 1px solid var(--rose); padding: 40px; 
-            border-radius: 30px; text-align: center; width: 80%;
-            box-shadow: 0 0 40px rgba(225, 29, 72, 0.4);
+        .roll-area { margin-top: 30px; text-align: center; }
+        .dice { 
+            width: 80px; height: 80px; background: #1a1014; 
+            border: 2px solid var(--rose); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; cursor: pointer; box-shadow: 0 0 15px var(--rose);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header"><h1>Couple Game</h1></div>
-    <div class="status-bar" id="status-display">VAMP'S TURN (🧛‍♂️)</div>
-    
-    <div class="board"><div class="grid" id="grid"></div></div>
-    
-    <div class="dice-area">
-        <div class="dice-display" id="dice-val">🎲</div>
-        <button class="roll-btn" id="roll-btn" onclick="rollDice()">Roll Dice</button>
+    <div class="game-header">
+        <h1>DESIRE</h1>
     </div>
-    
-    <div class="overlay" id="overlay">
-        <div class="card">
-            <h2 id="card-square" style="color:var(--rose); margin-top:0;">SQUARE 1</h2>
-            <p id="card-text" style="margin: 30px 0; font-size: 1.1rem; line-height: 1.6;">...</p>
-            <div style="display:flex; gap:10px;">
-                <button class="roll-btn" style="background: transparent; border: 1px solid var(--rose);" onclick="tryAgain()">Retry</button>
-                <button class="roll-btn" onclick="acceptTask()">Accept</button>
-            </div>
+
+    <div class="board">
+        <div class="grid" id="grid">
+            <!-- Grid generated by script -->
         </div>
+    </div>
+
+    <div class="roll-area">
+        <div class="dice" onclick="roll()">🎲</div>
+        <p>TAP TO ROLL</p>
     </div>
 </div>
 
 <script>
-    const taskDatabase = { " abhishek ki bandi chorke gyi "};
-    let state = { p1: 1, p2: 1, active: 1, currentRoll: 0 };
-
-    function updateStatus() {
-        document.getElementById('status-display').innerText = state.active === 1 ? "VAMP'S TURN (🧛‍♂️)" : "RABBIT'S TURN (🐇)";
-    }
-
-    function drawBoard() {
+    let p1 = 1, p2 = 1;
+    function render() {
         const grid = document.getElementById('grid');
         grid.innerHTML = '';
-        let currentPos = state.active === 1 ? state.p1 : state.p2;
-        let base = Math.min(171, Math.floor((Math.max(1, currentPos - 12) - 1) / 5) * 5 + 1);
-
-        for(let i=0; i<30; i++) {
-            let num = base + i;
-            if(num > 200) break;
+        for(let i=1; i<=200; i++) {
             let cell = document.createElement('div');
             cell.className = 'cell';
-            cell.innerText = num;
-            
-            if(state.p1 === num) cell.innerHTML += '<div class="token">🧛‍♂️</div>';
-            if(state.p2 === num) cell.innerHTML += '<div class="token">🐇</div>';
+            cell.innerText = i;
+            if(i === p1) cell.innerHTML = '<img src="vamp.png" class="avatar">';
+            if(i === p2) cell.innerHTML = '<img src="rabbit.png" class="avatar">';
             grid.appendChild(cell);
         }
     }
-
-    function rollDice() {
-        document.getElementById('roll-btn').disabled = true;
-        state.currentRoll = Math.floor(Math.random() * 6) + 1;
-        document.getElementById('dice-val').innerText = state.currentRoll;
-        animateSteps(state.currentRoll);
-    }
-
-    function animateSteps(steps) {
-        if (steps <= 0) {
-            document.getElementById('card-text').innerText = taskDatabase[state.active === 1 ? state.p1 : state.p2] || "Perform the task!";
-            document.getElementById('card-square').innerText = `SQUARE ${state.active === 1 ? state.p1 : state.p2}`;
-            document.getElementById('overlay').style.display = 'flex';
-            return;
-        }
-        if (state.active === 1) state.p1 = Math.min(200, state.p1 + 1);
-        else state.p2 = Math.min(200, state.p2 + 1);
-        drawBoard();
-        setTimeout(() => animateSteps(steps - 1), 300);
-    }
-
-    function tryAgain() {
-        document.getElementById('overlay').style.display = 'none';
-        if(state.active === 1) state.p1 = Math.max(1, state.p1 - state.currentRoll);
-        else state.p2 = Math.max(1, state.p2 - state.currentRoll);
-        drawBoard();
-        document.getElementById('roll-btn').disabled = false;
-    }
-
-    function acceptTask() {
-        document.getElementById('overlay').style.display = 'none';
-        state.active = state.active === 1 ? 2 : 1;
-        updateStatus();
-        document.getElementById('roll-btn').disabled = false;
-        document.getElementById('dice-val').innerText = "🎲";
-    }
-
-    drawBoard();
+    render();
 </script>
 </body>
 </html>
