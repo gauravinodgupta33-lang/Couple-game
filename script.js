@@ -75,7 +75,7 @@ function getTaskForSquare(squareNumber) {
         8: "Apne favorite dating spot ke baare mein batao.",
         9: "Agle turn mein agar tumhare paas skip ho, toh usey partner ko dedo.",
         10: "Partner ko ek 'air kiss' do!"
-    };
+    }
 
     // Agar square 1-10 mein se koi hai, toh upar wala task milega.
     // Warna, baaki squares ke liye default message aayega.
