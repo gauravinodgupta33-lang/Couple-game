@@ -3,95 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DESIRE Game</title>
-    <style>
-        :root { --rose: #e11d48; --bg: #050204; }
-        body { 
-            background: var(--bg); color: #fff; font-family: sans-serif; 
-            display: flex; flex-direction: column; align-items: center; padding: 20px; 
-            margin: 0; 
-        }
-        
-        .title { color: #fecdd3; letter-spacing: 0.5rem; font-size: 2rem; margin-bottom: 20px; }
-        
-        .board { 
-            display: grid; 
-            grid-template-columns: repeat(10, 1fr); 
-            gap: 4px; 
-            background: #110a0e; 
-            padding: 10px; 
-            border: 1px solid #3d1a25; 
-            border-radius: 15px;
-            max-width: 600px;
-        }
-        
-        .cell { 
-            width: 40px; height: 40px; 
-            background: #1a1014; 
-            border: 1px solid #331620; 
-            border-radius: 4px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.6rem; color: #443;
-            position: relative;
-        }
+    <title>DESIRE</title>
 
-        /* Token styling */
-        .token { 
-            position: absolute; 
-            font-size: 22px; 
-            z-index: 10; 
-            display: flex; align-items: center; justify-content: center;
-        }
+    <link rel="stylesheet" href="style.css">
 
-        /* Pink glow behind the token only */
-        .token::before {
-            content: '';
-            position: absolute;
-            width: 25px; height: 25px;
-            background: var(--rose);
-            filter: blur(10px);
-            z-index: -1;
-            opacity: 0.7;
-        }
-
-        .controls { margin-top: 20px; }
-        button { 
-            padding: 15px 40px; background: var(--rose); border: none; 
-            color: white; border-radius: 30px; font-weight: bold; cursor: pointer;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-    <h1 class="title">DESIRE</h1>
-    <div class="board" id="board"></div>
-    <div class="controls"><button onclick="roll()">ROLL DICE</button></div>
+    <div class="background-glow"></div>
 
-    <script>
-        const board = document.getElementById('board');
-        let p1 = 1; // Vamp position
-        let p2 = 193; // Rabbit position
+    <div class="app">
 
-        function render() {
-            board.innerHTML = '';
-            for(let i = 1; i <= 200; i++) {
-                let cell = document.createElement('div');
-                cell.className = 'cell';
-                cell.innerText = i;
-                
-                if(i === p1) cell.innerHTML += '<div class="token">🧛‍♂️</div>';
-                if(i === p2) cell.innerHTML += '<div class="token">🐇</div>';
-                
-                board.appendChild(cell);
-            }
-        }
+        <!-- Header -->
+        <header class="top-header">
 
-        function roll() {
-            // Add your move logic here
-            alert("Dice rolled!");
-        }
+            <button class="music-btn">🎵</button>
 
-        render();
-    </script>
+            <div class="game-title">
+                <p>An Intimate Game For Two</p>
+                <h1>DESIRE</h1>
+            </div>
+
+            <button class="reward-btn">🎁 Rewards</button>
+
+        </header>
+
+        <!-- Players -->
+        <section class="players">
+
+            <!-- Left Player -->
+            <div class="player left-player">
+
+                <div class="avatar">
+                    🧛‍♂️
+                </div>
+
+                <div class="player-info">
+                    <h2>VAMP</h2>
+
+                    <div class="progress">
+                        <div class="fill"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Turn -->
+            <div class="turn-box">
+                VAMP'S TURN 😈
+            </div>
+
+            <!-- Right Player -->
+            <div class="player right-player">
+
+                <div class="player-info">
+
+                    <h2>RABBIT</h2>
+
+                    <div class="progress">
+                        <div class="fill"></div>
+                    </div>
+
+                </div>
+
+                <div class="avatar">
+                    🐰
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Game Board -->
+        <main class="game-board">
+
+        </main>
+
+        <!-- Dice -->
+        <div class="dice-section">
+
+            <button class="undo-btn">
+                Undo
+            </button>
+
+            <button id="dice">
+                🎲
+            </button>
+
+            <button class="rules-btn">
+                Rules
+            </button>
+
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+
+            <button>🏠<span>Home</span></button>
+
+            <button>📝<span>Tasks</span></button>
+
+            <button>❤️</button>
+
+            <button>🕒<span>History</span></button>
+
+            <button>⚙️<span>Settings</span></button>
+
+        </nav>
+
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
