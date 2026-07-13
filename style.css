@@ -1629,16 +1629,23 @@ padding:24px 18px;
 }
 
 }
-/* Force Title Display */
+/* 
 .title {
-    display: block !important; 
-    font-size: 2.2rem !important; /* Size set kar lo */
-    letter-spacing: 6px;          /* Aesthetic gap */
+    /* Font: Agar Dancing Script import nahi kiya hai toh browser cursive le lega */
+    font-family: 'Dancing Script', cursive; 
+    font-size: 3rem !important;
     text-align: center;
-    color: #ffffff !important;
-    margin: 15px 0;               /* Upar niche space */
-    font-family: 'Cinzel', serif;  /* Agar ye font link hai toh */
-    text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    font-weight: bold;
+    margin: 15px 0;
     z-index: 999 !important;
+
+    /* Royal Reddish-Gold Gradient */
+    background: linear-gradient(45deg, #8B0000 20%, #FFD700 80%);
+    -webkit-background-clip: text; /* Gradient ko text shape dene ke liye */
+    background-clip: text;
+    color: transparent; /* Text ka apna color hata diya taaki gradient dikhe */
+    
+    /* Text Shadow taaki gold thoda aur chamke */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    text-transform: capitalize; /* Cursive ke liye capitalize better lagta hai */
 }
