@@ -1630,7 +1630,7 @@ padding:24px 18px;
 
 }
 .title {
-    /* Modern, Clean & Professional Font */
+    /* Font aur Gradient waisa hi hai */
     font-family: 'Poppins', sans-serif !important; 
     font-size: 2.2rem !important;
     text-align: center !important;
@@ -1639,14 +1639,15 @@ padding:24px 18px;
 
     /* Rose-Gold & Sunset Gradient */
     background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 50%, #f7d486 100%) !important;
-    
     -webkit-background-clip: text !important;
     background-clip: text !important;
     color: transparent !important;
 
-    /* Aesthetic Polish */
+    /* GOLDEN GLOW aur THIN BORDER ka Magic */
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5), /* Golden Glow */
+                 1px 1px 0px #D4AF37;           /* Thin Golden Border */
+    
     text-transform: uppercase !important;
     letter-spacing: 2px !important;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
     z-index: 999 !important;
 }
