@@ -2,71 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Lovesick: A cozy game for two players.">
-    <title>Lovesick | A Cosy Game</title>
-    <link rel="stylesheet" href="style.css">
+    <title>LOVESICK</title>
+    <style>
+        /* CSS STYLES */
+        :root { --accent: #ff4d6d; --bg: #050203; --text: #ffd6e0; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
+        .game-container { width: 100%; max-width: 450px; height: 100vh; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        header { text-align: center; margin-bottom: 10px; }
+        .subtitle { font-size: 0.7rem; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; }
+        h1 { margin: 5px 0; letter-spacing: 2px; }
+        #turn-display { border: 1px solid var(--accent); display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; margin-bottom: 10px; }
+        .board-viewport { flex: 1; overflow-y: auto; background: #130a0d; border: 1px solid #332; border-radius: 15px; padding: 10px; display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; align-content: start; }
+        .square { aspect-ratio: 1; background: #1a1a1a; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: #554; position: relative; }
+        .token { width: 80%; height: 80%; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+        .vamp { background: #ff4d6d; color: white; }
+        .rabbit { background: #fff; color: #ff4d6d; }
+        .btn-roll { width: 100%; padding: 15px; background: #1a0b12; border: 2px solid var(--accent); color: white; border-radius: 30px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        #modal { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10; }
+        .modal-content { background: #1a0b12; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid var(--accent); }
+    </style>
 </head>
 <body>
 
-    <div class="game-container">
-        
-        <header class="game__header">
-    <p class="game__subtitle">A COSSY GAME FOR TWO</p>
-    <h1 class="game__title">LOVESICK</h1>
-    <div class="game__turn-indicator" id="turn-display">VAMP'S TURN 👅</div>
-        </header>
-        
+<div class="game-container">
+    <header>
+        <p class="subtitle">A COSSY GAME FOR TWO</p>
+        <h1>LOVESICK</h1>
+        <div id="turn-display">VAMP'S TURN 👅</div>
+    </header>
 
-        <section class="stats-bar">
-            <div class="player-card" id="vamp-card">
-                <div class="player-card__avatar" id="vamp-avatar"></div>
-                <div class="player-card__details">
-                    <span class="player-name">VAMP</span>
-                    <div class="progress-bar"><div class="progress-bar__fill" id="vamp-progress"></div></div>
-                    <span class="player-score">1 / 200</span>
-                </div>
-            </div>
+    <main class="board-viewport" id="board"></main>
 
-            <div class="player-card" id="rabbit-card">
-                <div class="player-card__details">
-                    <span class="player-name">RABBIT</span>
-                    <div class="progress-bar"><div class="progress-bar__fill" id="rabbit-progress"></div></div>
-                    <span class="player-score">1 / 200</span>
-                </div>
-                <div class="player-card__avatar" id="rabbit-avatar"></div>
-            </div>
-        </section>
+    <footer>
+        <button class="btn-roll" onclick="rollDice()">TAP TO ROLL</button>
+    </footer>
+</div>
 
-        <main class="board-viewport" id="board-viewport">
-            <div class="board-track" id="board-track">
-                </div>
-            <div class="token-layer" id="token-layer">
-                <div class="token vamp" id="token-vamp"></div>
-                <div class="token rabbit" id="token-rabbit"></div>
-            </div>
-        </main>
-
-        <footer class="game-footer">
-            <button class="btn-roll" id="roll-btn">
-                <span class="btn-roll__icon">🎲</span>
-                <span class="btn-roll__text">TAP TO ROLL</span>
-            </button>
-        </footer>
-
-        <div class="modal-overlay hidden" id="task-modal">
-            <div class="modal-card">
-                <h2 class="modal-title" id="task-title">Task Name</h2>
-                <p class="modal-desc" id="task-desc">Task description goes here.</p>
-                <div class="modal-actions">
-                    <button class="btn-action accept" onclick="acceptTask()">Accept</button>
-                    <button class="btn-action skip" onclick="skipTask()">Skip</button>
-                </div>
-            </div>
-        </div>
-
+<div id="modal">
+    <div class="modal-content">
+        <h2 id="task-title">Task!</h2>
+        <p id="task-desc">Your task goes here.</p>
+        <button onclick="closeModal()">Accept</button>
     </div>
+</div>
 
-    <script src="script.js"></script>
+<script>
+    // JAVASCRIPT ENGINE
+    const board = document.getElementById('board');
+    let vPos = 1, rPos = 1, isVamp = true;
+
+    // Create 200 squares
+    for(let i = 1; i <= 200; i++) {
+        const sq = document.createElement('div');
+        sq.className = 'square';
+        sq.id = 'sq-' + i;
+        sq.innerText = i;
+        board.appendChild(sq);
+    }
+
+    function renderTokens() {
+        // Clear all tokens
+        document.querySelectorAll('.token').forEach(t => t.remove());
+        // Add Vamp
+        const vEl = document.createElement('div'); vEl.className = 'token vamp'; vEl.innerText = 'V';
+        document.getElementById('sq-' + vPos).appendChild(vEl);
+        // Add Rabbit
+        const rEl = document.createElement('div'); rEl.className = 'token rabbit'; rEl.innerText = 'R';
+        document.getElementById('sq-' + rPos).appendChild(rEl);
+        // Scroll
+        document.getElementById('sq-' + (isVamp ? vPos : rPos)).scrollIntoView({behavior: 'smooth', block: 'center'});
+    }
+
+    function rollDice() {
+        let roll = Math.floor(Math.random() * 6) + 1;
+        if(isVamp) { vPos = Math.min(vPos + roll, 200); } 
+        else { rPos = Math.min(rPos + roll, 200); }
+        
+        renderTokens();
+        
+        // Task check (every 5 squares)
+        let currentPos = isVamp ? vPos : rPos;
+        if(currentPos % 5 === 0) {
+            document.getElementById('task-title').innerText = (isVamp ? "VAMP" : "RABBIT") + " TASK";
+            document.getElementById('task-desc').innerText = "Do something sweet for your partner!";
+            document.getElementById('modal').style.display = 'flex';
+        }
+        
+        isVamp = !isVamp;
+        document.getElementById('turn-display').innerText = isVamp ? "VAMP'S TURN 👅" : "RABBIT'S TURN 🐰";
+    }
+
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    
+    // Initial Render
+    renderTokens();
+</script>
 </body>
 </html>
