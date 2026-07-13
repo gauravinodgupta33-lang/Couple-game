@@ -486,7 +486,26 @@ overflow:hidden;
 
 }
 
+.progress-fill{
 
+height:100%;
+
+width:0;
+
+border-radius:999px;
+
+background:
+linear-gradient(
+90deg,
+#ffd6a5,
+#ff8cb3);
+
+box-shadow:
+0 0 10px rgba(255,175,190,.45);
+
+transition:.5s;
+
+}
 
 .player-score{
 
@@ -808,8 +827,8 @@ TOKENS
     justify-content: center;
 }
 .token {
-    width: 100px !important; /* Thoda adjust kiya size */
-    height: 108px !important;
+    width: 40px !important; /* Thoda adjust kiya size */
+    height: 55px !important;
     background: none !important;
     border: none !important;
     display: flex !important;
@@ -1602,4 +1621,3 @@ padding:24px 18px;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     z-index: 999 !important;
 }
-
