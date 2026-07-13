@@ -1629,3 +1629,14 @@ padding:24px 18px;
 }
 
 }
+/* Force Title Display */
+.title {
+    display: block !important; 
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #ffffff !important; 
+    font-size: 2rem !important;
+    text-align: center;
+    margin-top: 10px;
+    z-index: 999 !important;
+}
