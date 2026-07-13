@@ -1,1 +1,138 @@
+/* ===========================
+   DESIRE GAME - STYLE PART 1
+=========================== */
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#090507;
+    color:#fff;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+.background-glow{
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at top,#ff4f8b33,transparent 40%),
+    radial-gradient(circle at bottom,#ff4f8b22,transparent 45%);
+    z-index:-1;
+}
+
+.app{
+    width:100%;
+    max-width:430px;
+    margin:auto;
+    padding:20px 16px 30px;
+}
+
+/* ================= Header ================= */
+
+.top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.music-btn,
+.reward-btn{
+    border:none;
+    outline:none;
+    color:#ffd9e7;
+    cursor:pointer;
+    background:#1b1116;
+    border:1px solid rgba(255,130,170,.35);
+    border-radius:18px;
+    padding:10px 18px;
+    box-shadow:0 0 18px rgba(255,70,130,.15);
+}
+
+.game-title{
+    text-align:center;
+}
+
+.game-title p{
+    font-size:11px;
+    letter-spacing:3px;
+    color:#ffc8d8;
+    text-transform:uppercase;
+    margin-bottom:6px;
+}
+
+.game-title h1{
+    font-size:58px;
+    font-weight:700;
+    letter-spacing:8px;
+    color:#ffd8e6;
+    text-shadow:
+        0 0 12px #ff6ba8,
+        0 0 28px rgba(255,105,180,.45);
+}
+
+/* ================= Players ================= */
+
+.players{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.player{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.avatar{
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:#24141c;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:34px;
+    border:2px solid #ff6ba8;
+    box-shadow:0 0 18px rgba(255,105,180,.45);
+}
+
+.player-info h2{
+    font-size:20px;
+    color:#ffe2ec;
+}
+
+.progress{
+    width:90px;
+    height:8px;
+    border-radius:30px;
+    background:#2f1c25;
+    overflow:hidden;
+    margin-top:6px;
+}
+
+.fill{
+    width:10%;
+    height:100%;
+    background:#ff82b4;
+}
+
+.turn-box{
+    flex:1;
+    text-align:center;
+    background:#23141b;
+    border:1px solid rgba(255,130,180,.35);
+    border-radius:25px;
+    padding:15px;
+    color:#ffe5ef;
+    font-weight:600;
+    box-shadow:0 0 18px rgba(255,105,180,.25);
+}
