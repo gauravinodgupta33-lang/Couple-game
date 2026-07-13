@@ -26,7 +26,7 @@
 
     <div class="player player-left" id="player-vamp">
       <div class="avatar-ring">
-        <div class="avatar">🧛</div>
+        <img class="avatar-img" src="assets/vamp.png" alt="Vamp">
       </div>
       <div class="player-info">
         <span class="player-name">VAMP</span>
@@ -34,12 +34,13 @@
           <div class="progress-fill" id="progress-vamp"></div>
         </div>
         <span class="player-score" id="score-vamp">1 / 200</span>
+        <span class="page-chip" id="page-chip-vamp" hidden>off-screen</span>
       </div>
     </div>
 
     <div class="turn-pill" id="turn-pill">
       <span id="turn-text">VAMP'S TURN</span>
-      <span class="turn-icon">🍑</span>
+      <span class="turn-icon">♥</span>
       <span class="skip-badge" id="skip-badge" hidden>0 skips</span>
     </div>
 
@@ -50,9 +51,10 @@
           <div class="progress-fill" id="progress-rabbit"></div>
         </div>
         <span class="player-score" id="score-rabbit">1 / 200</span>
+        <span class="page-chip" id="page-chip-rabbit" hidden>off-screen</span>
       </div>
       <div class="avatar-ring">
-        <div class="avatar">🐰</div>
+        <img class="avatar-img" src="assets/rabbit.png" alt="Rabbit">
       </div>
     </div>
 
@@ -67,11 +69,6 @@
 
   <!-- ===== Controls ===== -->
   <footer class="controls">
-    <button class="btn btn-undo" id="btn-undo">
-      <span class="btn-icon">↺</span>
-      <span>UNDO</span>
-    </button>
-
     <div class="dice-wrap">
       <button class="dice-btn" id="dice-btn" aria-label="Roll dice">
         <span class="dice-face" id="dice-face">⚄</span>
@@ -84,8 +81,6 @@
       <span>RULES</span>
     </button>
   </footer>
-
-  <div class="sparkle" aria-hidden="true">✦</div>
 
 </div>
 
