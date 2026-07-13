@@ -1632,11 +1632,13 @@ padding:24px 18px;
 /* Force Title Display */
 .title {
     display: block !important; 
-    visibility: visible !important;
-    opacity: 1 !important;
-    color: #ffffff !important; 
-    font-size: 2rem !important;
+    font-size: 2.2rem !important; /* Size set kar lo */
+    letter-spacing: 6px;          /* Aesthetic gap */
     text-align: center;
-    margin-top: 10px;
+    color: #ffffff !important;
+    margin: 15px 0;               /* Upar niche space */
+    font-family: 'Cinzel', serif;  /* Agar ye font link hai toh */
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     z-index: 999 !important;
 }
