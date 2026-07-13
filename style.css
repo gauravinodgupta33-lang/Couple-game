@@ -139,26 +139,26 @@ body{
 /*======================================
         GAME BOARD - PART 2
 ======================================*/
-
 .game-board{
-    width:100%;
-    height:520px;
+    width:95%;
+    height:55vh;
     margin:20px auto;
 
     background:#180d14;
-
+    border:1px solid rgba(255,120,180,.2);
     border-radius:28px;
 
-    border:1px solid rgba(255,120,180,.2);
-
-    box-shadow:
-        0 0 25px rgba(255,100,170,.2);
+    box-shadow:0 0 25px rgba(255,100,170,.2);
 
     overflow-y:auto;
+    overflow-x:hidden;
+
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
 
     padding:15px;
 }
-
 .tile{
     aspect-ratio:1;
     border-radius:14px;
