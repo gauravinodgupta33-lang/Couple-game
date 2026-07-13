@@ -140,24 +140,16 @@ body{
         GAME BOARD - PART 2
 ======================================*/
 .game-board{
+    flex:1;
     width:95%;
-    height:55vh;
+    max-width:520px;
     margin:20px auto;
 
     background:#180d14;
     border:1px solid rgba(255,120,180,.2);
     border-radius:28px;
 
-    box-shadow:0 0 25px rgba(255,100,170,.2);
-
     overflow-y:auto;
-    overflow-x:hidden;
-
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-
-    padding:15px;
 }
 .tile{
     aspect-ratio:1;
