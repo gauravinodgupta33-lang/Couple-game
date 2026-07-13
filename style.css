@@ -27,9 +27,16 @@ body{
 
 .app{
     width:100%;
-    max-width:430px;
-    margin:auto;
-    padding:20px 16px 30px;
+    max-width:550px;
+    margin:0 auto;
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:20px;
+    box-sizing:border-box;
 }
 
 /* ================= Header ================= */
@@ -141,16 +148,24 @@ body{
 ======================================*/
 .game-board{
     flex:1;
-    width:95%;
-    max-width:520px;
-    margin:20px auto;
+
+    width:100%;
+
+    margin:20px 0;
 
     background:#180d14;
+
     border:1px solid rgba(255,120,180,.2);
+
     border-radius:28px;
 
+    box-shadow:0 0 25px rgba(255,100,170,.25);
+
     overflow-y:auto;
+
+    min-height:300px;
 }
+
 .tile{
     aspect-ratio:1;
     border-radius:14px;
@@ -200,9 +215,9 @@ body{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin:30px 0;
-}
 
+    margin-top:20px;
+}
 .undo-btn,
 .rules-btn{
     width:95px;
