@@ -1628,26 +1628,16 @@ padding:24px 18px;
 
 }
 
-}
-.title {
-    /* Font aur Gradient waisa hi hai */
-    font-family: 'Poppins', sans-serif !important; 
-    font-size: 2.2rem !important;
-    text-align: center !important;
-    font-weight: 700 !important;
-    margin: 20px 0 !important;
-
-    /* Rose-Gold & Sunset Gradient */
-    background: linear-gradient(90deg, #ff758c 0%, #ff7eb3 50%, #f7d486 100%) !important;
-    -webkit-background-clip: text !important;
-    background-clip: text !important;
-    color: transparent !important;
-
-    /* GOLDEN GLOW aur THIN BORDER ka Magic */
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5), /* Golden Glow */
-                 1px 1px 0px #D4AF37;           /* Thin Golden Border */
-    
-    text-transform: uppercase !important;
-    letter-spacing: 2px !important;
+}.title {
+    display: block !important; 
+    font-size: 2.2rem !important; /* Size set kar lo */
+    letter-spacing: 6px;          /* Aesthetic gap */
+    text-align: center;
+    color: #ffffff !important;
+    margin: 15px 0;               /* Upar niche space */
+    font-family: 'Cinzel', serif;  /* Agar ye font link hai toh */
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     z-index: 999 !important;
 }
+
