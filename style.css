@@ -1,96 +1,51 @@
-/* 1. Global Reset & Dark Theme */
-* {
+/* General Layout */
+body {
+    background-color: #050505;
+    color: #fff;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif; /* You can change this to a cute font later */
-}
-
-body {
-    background-color: #0a0a0a; /* Deep dark background */
-    color: #fff;
-    height: 100vh;
+    font-family: sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
-    overflow: hidden;
 }
 
 .game-container {
     width: 100%;
-    max-width: 400px; /* Perfect for mobile */
+    max-width: 450px;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    position: relative;
 }
 
-/* 2. Fix the Modal Overlay */
-.overlay-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: none; /* This hides the task modal until we trigger it with JS */
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
-}
-
-/* 3. Basic Board Viewport Setup */
+/* Board styling */
 .board-viewport {
-    flex-grow: 1;
-    overflow-y: auto; /* This allows the scrolling you wanted */
-    margin: 20px 0;
-    border: 1px solid #333;
-    border-radius: 10px;
-    background: #111;
-    position: relative;
-}
-
-.board-track {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 squares per row */
-    gap: 10px;
-    padding: 10px;
-}
-/* --- Board & Grid Styling --- */
-
-/* The outer container that allows scrolling */
-.board-viewport {
-    width: 100%;
-    height: 60vh; /* Adjust height as needed */
-    overflow-y: auto; /* This makes it scroll automatically */
+    flex: 1;
+    overflow-y: auto;
     background: #0d0d0d;
-    border: 2px solid #332222; /* Dark reddish border */
-    border-radius: 20px;
+    margin: 20px 10px;
     padding: 10px;
-    position: relative;
-    box-shadow: inset 0 0 20px rgba(255, 0, 0, 0.1);
+    border-radius: 15px;
+    border: 1px solid #332222;
 }
 
-/* The grid container that will hold the 200 squares */
+/* This is the grid that holds your 200 squares */
 .board-track {
     display: grid;
-    grid-template-columns: repeat(10, 1fr); /* 10 squares per row */
-    gap: 8px; /* Space between squares */
+    grid-template-columns: repeat(10, 1fr); /* 10 columns across */
+    gap: 5px;
 }
 
-/* The individual squares (Style for the future JS-injected squares) */
+/* These are the squares that JS will create */
 .square {
-    aspect-ratio: 1 / 1; /* Makes them perfectly square */
+    aspect-ratio: 1 / 1;
     background: #1a1a1a;
-    border: 1px solid #333;
-    border-radius: 8px;
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #555;
-    font-size: 0.8rem;
-    transition: all 0.3s ease;
+    font-size: 10px;
+    color: #444;
+    border: 1px solid #222;
 }
 
 /* Glowing effect for the squares */
